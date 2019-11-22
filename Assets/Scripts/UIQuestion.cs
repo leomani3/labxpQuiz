@@ -9,32 +9,22 @@ public class UIQuestion : MonoBehaviour
     public Text QuestionsUI;
     public int idQuestion = 0;
 
-    QuestionParser qp;
-    List<Question> questions;
     List<GameObject> ListButtonAnswers;
     // Start is called before the first frame update
     void Start()
     {
         //generate first questions
         ListButtonAnswers = new List<GameObject>();
-        qp = new QuestionParser();
-        questions = qp.ParseTxt();
         GenerateAnswer(0);
         ListenerButtons();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void GenerateAnswer(int idQuestions)
     {
-        QuestionsUI.text = questions[idQuestion].GetEnonce();
-        int nbAnswer = questions[idQuestion].GetReponses().Count;
-        List<string> Answers = questions[idQuestion].GetReponses();
-        int rightAnswer = questions[idQuestions].GetBonneReponse();
+        QuestionsUI.text = GameManager.questions[idQuestion].GetEnonce();
+        int nbAnswer = GameManager.questions[idQuestion].GetReponses().Count;
+        List<string> Answers = GameManager.questions[idQuestion].GetReponses();
+        int rightAnswer = GameManager.questions[idQuestions].GetBonneReponse();
 
         for (int i = 0; i < nbAnswer; i++)
         {
@@ -46,7 +36,6 @@ public class UIQuestion : MonoBehaviour
             AnswerInstantiate.transform.parent = this.transform;
         }
     }
-
     void ListenerButtons()
     {
         foreach (GameObject g in ListButtonAnswers)
