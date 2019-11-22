@@ -5,10 +5,10 @@ Rome
 Paris
 Marseille
 Saint-Etienne
-2
+1
 
 Léo est il le plus beau ?
 2
 Oui
 Non
-1
+0
