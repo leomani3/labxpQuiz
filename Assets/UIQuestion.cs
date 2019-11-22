@@ -32,14 +32,16 @@ public class UIQuestion : MonoBehaviour
     void GenerateAnswer(int idQuestions)
     {
         QuestionsUI.text = questions[idQuestion].GetEnonce();
-        int nbAnswer = questions[idQuestions].GetReponses().Count;
-        List<string> Answers = questions[idQuestions].GetReponses();
+        int nbAnswer = questions[idQuestion].GetReponses().Count;
+        List<string> Answers = questions[idQuestion].GetReponses();
+        int rightAnswer = questions[idQuestions].GetBonneReponse();
 
         for (int i = 0; i < nbAnswer; i++)
         {
             Vector3 pos = new Vector3(647, 450 - (i * 70), 0);
             GameObject AnswerInstantiate = Instantiate(AnswerPrefabs, pos, Quaternion.identity);
             ListButtonAnswers.Add(AnswerInstantiate);
+            AnswerInstantiate.GetComponent<AnswerButton>().goodAnswer = RightAnswer(rightAnswer,i);
             AnswerInstantiate.GetComponentInChildren<Text>().text = Answers[i];
             AnswerInstantiate.transform.parent = this.transform;
         }
@@ -65,5 +67,8 @@ public class UIQuestion : MonoBehaviour
         GenerateAnswer(idQuestion);
     }
 
-
+    bool RightAnswer(int rightAnswer, int idAnswer)
+    {
+        return rightAnswer == idAnswer;
+    }
 }
