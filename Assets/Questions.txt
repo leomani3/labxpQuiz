@@ -1,14 +1,2 @@
-2
-Quelle est la capitale de la France ?
-4
-Rome
-Paris
-Marseille
-Saint-Etienne
-2
-
-Léo est il le plus beau ?
-2
-Oui
-Non
-1
+Quelle est la capitale de la France ? /// Rome / Paris / Marseille / Saint-Etienne // 2
+Léo est il le plus beau ? /// Oui / Non // 1
