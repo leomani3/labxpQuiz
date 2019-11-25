@@ -40,26 +40,41 @@ public class TestSocketIO : MonoBehaviour
 		GameObject go = GameObject.Find("SocketIO");
 		socket = go.GetComponent<SocketIOComponent>();
 
-        socket.On("open", TestOpen);
+        /*socket.On("open", TestOpen);
         socket.On("boop", TestCo);
         socket.On("error", TestError);
-        socket.On("close", TestClose);
+        socket.On("close", TestClose);*/
+
+        socket.On("join", Join);
+        socket.On("joinAll", JoinAll);
+
+        StartCoroutine("BeepBoop");
 
     }
 
 
-    private void TestCo(SocketIOEvent e)
+    private void Join(SocketIOEvent e)
     {
-        StartCoroutine(BeepBoop());
+        Debug.Log(e.data);
+    }
+
+    private void JoinAll(SocketIOEvent e)
+    {
+        Debug.Log(e.data);
     }
 
     private IEnumerator BeepBoop()
 	{
         Debug.Log("test");
 		// wait 1 seconds and continue
-		yield return new WaitForSeconds(1);
-		
-		socket.Emit("beep");
+		yield return new WaitForSeconds(3);
+
+        JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
+
+        j.AddField("name", "Homertimes");
+
+
+        socket.Emit("join",j);
 		
 		// wait 3 seconds and continue
 		yield return new WaitForSeconds(3);

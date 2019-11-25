@@ -11,7 +11,7 @@ module.exports = {
 function join(socket){
 
 	socket.on('join', function(data ){
-
+		
 		playerNumber++;
 		idPlayer = playerNumber;
 		namePlayer = data.name;
@@ -20,6 +20,8 @@ function join(socket){
 		socket.broadcast.emit("joinAll",{id : idPlayer,name : namePlayer});
 		socket.emit("join",{nbPlayer : playerNumber} );
 		scorePlayer.set(idPlayer, 0);
+		
+		console.log("player join : " + idPlayer + "  " +namePlayer);
 		
 		/*socket.on('beep', function(){
 		socket.handshake.session.userdata = new Map();
