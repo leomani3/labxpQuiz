@@ -17,10 +17,22 @@ The following packages were updated:
   com.unity.textmeshpro from version 2.0.0 to 2.0.1
   com.unity.timeline from version 0.0.0-builtin to 1.1.0
 
+<<<<<<< HEAD
 === Fri Nov 22 13:24:17 2019
+=======
+=== Wed Nov 20 14:55:35 2019
+>>>>>>> server
 
 Packages were changed.
 Update Mode: updateDependencies
 
+<<<<<<< HEAD
+=======
+The following packages were added:
+  com.unity.2d.tilemap@1.0.0
+  com.unity.2d.sprite@1.0.0
+  com.unity.multiplayer-hlapi@1.0.2
+  com.unity.xr.legacyinputhelpers@2.0.2
+>>>>>>> server
 The following packages were updated:
   com.unity.ide.vscode from version 1.1.0 to 1.1.2

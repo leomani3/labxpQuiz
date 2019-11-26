@@ -1,0 +1,2 @@
+Quelle est la capitale de la France ? - Rome / Paris / Marseille / Saint-Etienne //1
+Léo est il le plus beau ? - Oui / Non //0
