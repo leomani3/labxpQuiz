@@ -18,7 +18,7 @@ function join(socket){
 		
 		// session
 		socket.broadcast.emit("joinAll",{id : idPlayer,name : namePlayer});
-		socket.emit("join",{nbPlayer : playerNumber} );
+		socket.emit("join",{id : idPlayer, nbPlayer : playerNumber} );
 		scorePlayer.set(idPlayer, 0);
 		
 		console.log("player join : " + idPlayer + "  " +namePlayer);
@@ -45,13 +45,13 @@ function join(socket){
 	socket.on('setReponse', function(data ){
 		idPlayer = data.id;
 		answer = data.answer;
-		goodAnswer = false;
+		goodAnswer = 0;
 		currentScore = scorePlayer.get(idPlayer);
 		
 		console.log(questions[numberQuestion].goodAnswer);
 		console.log(answer);
 		if(questions[numberQuestion].goodAnswer == answer){
-			goodAnswer = true;
+			goodAnswer = 1;
 			currentScore++;
 			scorePlayer.set(idPlayer, currentScore);
 		}
