@@ -56,6 +56,7 @@ function join(socket){
 			scorePlayer.set(idPlayer, currentScore);
 		}
 		
+		socket.broadcast.emit("setReponse",{id : idPlayer, answer : goodAnswer} );
 		socket.emit("setReponse",{id : idPlayer, answer : goodAnswer} );
 	})
 

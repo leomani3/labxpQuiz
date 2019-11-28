@@ -81,7 +81,7 @@ public class Menu : MonoBehaviour
     {
         GameObject UItextGO = new GameObject("Text2");
         UItextGO.transform.SetParent(canvas_transform);
-
+        UItextGO.transform.position = new Vector2(0, -idPlayer + 10);
         RectTransform trans = UItextGO.AddComponent<RectTransform>();
         trans.anchoredPosition = new Vector2(x, y);
 
