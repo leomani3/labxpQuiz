@@ -54,8 +54,8 @@ lineReader.on("line", function (line) {
 	questionAndResponses = line.split("//")[0];
 	indexResponse = line.split("//")[1];
 	
-	questionTitle = questionAndResponses.split("-")[0];
-	responses = questionAndResponses.split("-")[1];
+	questionTitle = questionAndResponses.split("#&")[0];
+	responses = questionAndResponses.split("#&")[1];
 	responsesString = responses.split("/");
 	for(j = 0 ; j < responsesString.length ; j++){
 		response = responses.split("/")[j];
