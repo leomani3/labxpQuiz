@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SocketIO;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,12 +12,18 @@ public class GameManager : MonoBehaviour
     public Material[] materials;
 
     //--PLAYER
-    private int playerId;
+    private int playerId = 985;
     private string playerName;
 
     //--PARTIE
     private int nbPlayer = 10;
-    private int[] playersAnswer = new int[10];
+    private Dictionary<int, int> playersAnswer = new Dictionary<int, int>();
+    private Dictionary<int, string> players = new Dictionary<int, string>();
+    private int currentQuestion;
+    private bool isCorrectAnswer = false;
+
+    //--SERVEUR
+    private SocketIOComponent socket;
 
     void Awake()
     {
@@ -24,11 +31,75 @@ public class GameManager : MonoBehaviour
         questions = qp.ParseTxt();
         ResetPlayersAnswer();
         DisplayHasAnswered();
+
+
+        //--SERVEUR-------
+        socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+
+        socket.On("getQuestions", getQuestions);
+        socket.On("getCurrentQuestion", getCurrentQuestion);
+        socket.On("setReponse", getIsCorrectAnswer);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            socket.Emit("getQuestions");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            socket.Emit("getCurrentQuestion");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SendReponse(1);
+        }
+    }
+
+    private void getIsCorrectAnswer(SocketIOEvent e)
+    {
+        int pId = int.Parse(e.data.GetField("id").ToString());
+        int pAnswer = int.Parse(e.data.GetField("answer").ToString());
+        Debug.Log(pId+" "+pAnswer);
+        playersAnswer[pId] = pAnswer;
+    }
+
+    private void SendReponse(int i)
+    {
+        JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
+        j.AddField("id", playerId);
+        j.AddField("answer", i);
+
+        socket.Emit("setReponse", j);
+    }
+
+    private void getCurrentQuestion(SocketIOEvent e)
+    {
+        currentQuestion = int.Parse(e.data.GetField("question").ToString());
+    }
+
+    private void getQuestions(SocketIOEvent e)
+    {
+        int nbQuestion = e.data.GetField("questions").Count;
+        Debug.Log(e.data.GetField("questions"));
+        for (int i = 0; i < nbQuestion; i++)
+        {
+            int nbReponse = e.data.GetField("questions")[i].GetField("answer").Count;
+            List<string> reponses = new List<string>();
+            Question q = new Question();
+
+            q.SetEnonce(e.data.GetField("questions")[i].GetField("title").str);
+            q.SetBonneReponse(int.Parse(e.data.GetField("questions")[i].GetField("goodAnswer").str));
+            for (int j = 0; j < nbReponse; j++)
+            {
+                reponses.Add(e.data.GetField("questions")[i].GetField("answer").GetField(j.ToString()).str);
+            }
+            q.SetReponses(reponses);
+
+            questions.Add(q);
+        }
     }
 
     /// <summary>
@@ -36,15 +107,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DisplayIsCorrectAnswer()
     {
-        for (int i = 0; i < nbPlayer; i++)
+        foreach (int i in playersAnswer.Keys)
         {
             if (playersAnswer[i] == 0)
             {
-                chairs[i].GetComponent<MeshRenderer>().material = materials[3];
+                chairs[i].GetComponent<MeshRenderer>().material = materials[3]; //mauvaise reponse
             }
-            else if(playersAnswer[i] == 1)
+            else if (playersAnswer[i] == 1)
             {
-                chairs[i].GetComponent<MeshRenderer>().material = materials[2];
+                chairs[i].GetComponent<MeshRenderer>().material = materials[2]; //Bonne reponse
             }
         }
     }
@@ -54,7 +125,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DisplayHasAnswered()
     {
-        for (int i = 0; i < nbPlayer; i++)
+        foreach (int i in playersAnswer.Keys)
         {
             if (playersAnswer[i] != -1)
             {
@@ -72,7 +143,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ResetPlayersAnswer()
     {
-        for (int i = 0; i < playersAnswer.Length; i++)
+        foreach (int i in playersAnswer.Keys)
         {
             playersAnswer[i] = -1;
         }
