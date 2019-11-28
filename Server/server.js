@@ -35,6 +35,7 @@ global.playerNumber = 0;
 global.numberQuestion = 0;
 
 global.scorePlayer = new Map();
+global.namePlayerMap = new Map();
 //maMap.set(chaineClé, "valeur associée à 'une chaîne'");
 //maMap.get(chaineClé);
 

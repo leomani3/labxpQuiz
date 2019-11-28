@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour
     private string namePlayer;
     private int idPlayer;
 
+    private List<Player> listPlayer; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,8 @@ public class Menu : MonoBehaviour
 
         socket.On("join", Join);
         socket.On("joinAll", JoinAll);
+
+        listPlayer = new List<Player>();
     }
 
     // Update is called once per frame
@@ -40,16 +44,28 @@ public class Menu : MonoBehaviour
         namePlayer = namePlayerInput;
         j.AddField("name", namePlayer);
         socket.Emit("join", j);
+
+
         
     }
 
     private void Join(SocketIOEvent e)
     {
+        Debug.Log(e.data.GetField("namePlayerJson"));
         string nbPlayerSt = e.data.GetField("nbPlayer").Print();
         string idPlayerSt = e.data.GetField("id").Print();
         nbPlayer = int.Parse(nbPlayerSt);
         idPlayer = int.Parse(idPlayerSt);
-        PlaceTextElement(nbPlayer, idPlayer);
+        //PlaceTextElement(nbPlayer, idPlayer,"");
+
+        GameObject inputNamePlayer = GameObject.Find("InputNamePlayer");
+        GameObject joinButton = GameObject.Find("join_button");
+
+        inputNamePlayer.SetActive(false);
+        joinButton.SetActive(false);
+
+        AddPlayers(e.data);
+        PlaceTextOtherPlayers();
     }
 
     private void JoinAll(SocketIOEvent e)
@@ -58,32 +74,32 @@ public class Menu : MonoBehaviour
     }
 
 
-    private void PlaceTextElement(int nbPlayer , int idPlayer )
+    private void PlaceTextElement(int idPlayer, string namePlayer )
     {
-        /*        Debug.Log("sa passe");
-
-                GameObject textObject = new GameObject("new text " + nbPlayer);
-                Text myText = textObject.AddComponent<Text>();
-                myText.text = ;
-                myText.transform.position = new Vector2(0, 0);
-
-
-                textObject.transform.SetParent(canvas.transform);*/
 
         GameObject canvas = GameObject.Find("Text_player");
-        string newText = "Player " + nbPlayer + " " + namePlayer;
-        CreateText(canvas.transform, 0, 0, newText, 14, Color.black, idPlayer);
+        namePlayer = "Player " + idPlayer + " : " + namePlayer;
+        CreateText(canvas.transform, 0, 0, namePlayer, 14, Color.black, idPlayer);
+    }
 
-
+    private void PlaceTextOtherPlayers()
+    {
+        Debug.Log(nbPlayer);
+        for (int i = 0; i < listPlayer.Count; i++)
+        {
+            Debug.Log("sa passe");
+            PlaceTextElement(i, listPlayer[i].name);
+        }   
     }
 
     GameObject CreateText(Transform canvas_transform, float x, float y, string text_to_print, int font_size, Color text_color, int idPlayer)
     {
-        GameObject UItextGO = new GameObject("Text2");
+        GameObject UItextGO = new GameObject("Text" + idPlayer);
         UItextGO.transform.SetParent(canvas_transform);
-        UItextGO.transform.position = new Vector2(0, -idPlayer + 10);
+       
         RectTransform trans = UItextGO.AddComponent<RectTransform>();
         trans.anchoredPosition = new Vector2(x, y);
+        trans.sizeDelta = new Vector2(200, 20);
 
         Text text = UItextGO.AddComponent<Text>();
         text.text = text_to_print;
@@ -91,6 +107,22 @@ public class Menu : MonoBehaviour
         text.color = text_color;
         text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
 
+        text.transform.position = UItextGO.transform.position + new Vector3(0, -idPlayer * 50, 0);
+
         return UItextGO;
     }
-}
+
+
+    private void AddPlayers(JSONObject data)
+    {
+   
+        for (int i = 0; i < nbPlayer; i++)
+        {
+            JSONObject playerElement = data.GetField("namePlayerJson")[i];
+            Player player = new Player(int.Parse(playerElement.GetField("id").Print()), playerElement.GetField("name").Print()) as Player;
+            listPlayer.Add(player);
+        }
+      
+    }
+        
+ }

@@ -18,17 +18,11 @@ function join(socket){
 		
 		// session
 		socket.broadcast.emit("joinAll",{id : idPlayer,name : namePlayer});
-		socket.emit("join",{id : idPlayer, nbPlayer : playerNumber} );
 		scorePlayer.set(idPlayer, 0);
-		
+		namePlayerMap.set(idPlayer, namePlayer);
 		console.log("player join : " + idPlayer + "  " +namePlayer);
-		
-		/*socket.on('beep', function(){
-		socket.handshake.session.userdata = new Map();
-		socket.handshake.session.userdata(
-		socket.handshake.session.save();
-		socket.emit('boop',{p{name : "homertimes"}seudo : socket.handshake.session.userdata});
-		});*/
+		var namePlayerJson = setMapToJson(namePlayerMap);
+		socket.emit("join",{id : idPlayer, nbPlayer : playerNumber,namePlayerJson} );
 	});
 
 
@@ -55,7 +49,6 @@ function join(socket){
 			currentScore++;
 			scorePlayer.set(idPlayer, currentScore);
 		}
-		
 		socket.broadcast.emit("setReponse",{id : idPlayer, answer : goodAnswer} );
 		socket.emit("setReponse",{id : idPlayer, answer : goodAnswer} );
 	})
@@ -70,4 +63,15 @@ function join(socket){
 		console.log(scorePlayer);
 		socket.emit("getScore", {scoreJSON});
 	})
+	
+}
+
+
+function setMapToJson(map){
+	objectJSON  = [];
+	var i;
+	map.forEach(function(value,key, map){
+		objectJSON.push({id : key, name : value});
+	})
+	return objectJSON
 }
