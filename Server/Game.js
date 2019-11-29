@@ -32,8 +32,8 @@ function join(socket){
 	
 	
 	socket.on('getCurrentQuestion', function(data ){
-		socket.emit("getCurrentQuestion",{question : numberQuestion} )
 		numberQuestion++;
+		socket.emit("getCurrentQuestion",{question : numberQuestion} )
 	})
 	
 	socket.on('setReponse', function(data ){
@@ -62,6 +62,10 @@ function join(socket){
 		})
 		console.log(scorePlayer);
 		socket.emit("getScore", {scoreJSON});
+		playerNumber = 0;
+		numberQuestion = -1;
+		scorePlayer.clear();
+		namePlayerMap.clear();
 	})
 	
 }
