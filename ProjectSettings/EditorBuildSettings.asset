@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/SocketIO/Scenes/SocketIOTest.unity
     guid: d0610c6cbb3e14cb6961f361c3ba23fe
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 56095dfdd640d7a4eb0655acb6aed798
+  - enabled: 1
+    path: Assets/Scenes/MainStage.unity
+    guid: bd3384b13226f524f8ada96ba2452022
   m_configObjects: {}

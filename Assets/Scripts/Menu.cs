@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using SocketIO;
 using UnityEngine.UI;
 
@@ -12,12 +13,18 @@ public class Menu : MonoBehaviour
 
     private string namePlayer;
     private int idPlayer;
+    private List<Question> questions;
 
-    private List<Player> listPlayer; 
-
+    private List<Player> listPlayer;
+    private GameObject startButton;
+    private GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
+        questions = new List<Question>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        startButton = GameObject.Find("startGame");
+        startButton.SetActive(false);
         GameObject go = GameObject.Find("SocketIO");
         socket = go.GetComponent<SocketIOComponent>();
 
@@ -25,15 +32,32 @@ public class Menu : MonoBehaviour
 
         socket.On("join", Join);
         socket.On("joinAll", JoinAll);
+        socket.On("getQuestions", getQuestions);
 
         listPlayer = new List<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void getQuestions(SocketIOEvent e)
     {
-        
+        int nbQuestion = e.data.GetField("questions").Count;
+        for (int i = 0; i < nbQuestion; i++)
+        {
+            int nbReponse = e.data.GetField("questions")[i].GetField("answer").Count;
+            List<string> reponses = new List<string>();
+            Question q = new Question();
+
+            q.SetEnonce(e.data.GetField("questions")[i].GetField("title").str);
+            q.SetBonneReponse(int.Parse(e.data.GetField("questions")[i].GetField("goodAnswer").str));
+            for (int j = 0; j < nbReponse; j++)
+            {
+                reponses.Add(e.data.GetField("questions")[i].GetField("answer").GetField(j.ToString()).str);
+            }
+            q.SetReponses(reponses);
+            questions.Add(q);
+        }
+        Debug.Log("hhhhh" + questions.Count);
     }
+
 
     public void OnclickButtonJoin()
     {
@@ -44,9 +68,7 @@ public class Menu : MonoBehaviour
         namePlayer = namePlayerInput;
         j.AddField("name", namePlayer);
         socket.Emit("join", j);
-
-
-        
+        socket.Emit("getQuestions");
     }
 
     private void Join(SocketIOEvent e)
@@ -66,6 +88,19 @@ public class Menu : MonoBehaviour
 
         AddPlayers(e.data);
         PlaceTextOtherPlayers();
+
+        if (nbPlayer == 1)
+        {
+            startButton.SetActive(true);
+        }
+    }
+
+    public void StartGame()
+    {
+        //passer toutes les variables necessaires au GameManager
+        GameManager.questions = questions;
+        SceneManager.LoadScene("MainStage");
+        gameManager.Init(nbPlayer);
     }
 
     private void JoinAll(SocketIOEvent e)
@@ -121,6 +156,7 @@ public class Menu : MonoBehaviour
             JSONObject playerElement = data.GetField("namePlayerJson")[i];
             Player player = new Player(int.Parse(playerElement.GetField("id").Print()), playerElement.GetField("name").Print()) as Player;
             listPlayer.Add(player);
+            gameManager.AddPlayer(int.Parse(playerElement.GetField("id").Print()), playerElement.GetField("name").Print());
         }
       
     }
