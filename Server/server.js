@@ -31,16 +31,14 @@ io.attach(8080);
 
 // include our files
 var tools = require('./Game');
+tools.Main(io);
+
+
 global.playerNumber = 0;
-global.numberQuestion = 0;
+global.numberQuestion = -1;
 
 global.scorePlayer = new Map();
 global.namePlayerMap = new Map();
-//maMap.set(chaineClé, "valeur associée à 'une chaîne'");
-//maMap.get(chaineClé);
-
-tools.Main(io);
-
 
 console.log("sa tourne au calme");
 
