@@ -21,6 +21,7 @@ public class UIQuestion : MonoBehaviour
 
     void GenerateAnswer(int idQuestions)
     {
+        Debug.Log(GameManager.questions.Count);
         QuestionsUI.text = GameManager.questions[idQuestion].GetEnonce();
         int nbAnswer = GameManager.questions[idQuestion].GetReponses().Count;
         List<string> Answers = GameManager.questions[idQuestion].GetReponses();

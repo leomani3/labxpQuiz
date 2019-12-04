@@ -18,7 +18,7 @@ public class Menu : MonoBehaviour
     private List<Player> listPlayer;
     private GameObject startButton;
     private GameManager gameManager;
-    // Start is called before the first frame update
+
     void Start()
     {
         questions = new List<Question>();
@@ -98,9 +98,11 @@ public class Menu : MonoBehaviour
     public void StartGame()
     {
         //passer toutes les variables necessaires au GameManager
+       
         GameManager.questions = questions;
+        Debug.Log(GameManager.questions.Count);
         SceneManager.LoadScene("MainStage");
-        gameManager.Init(nbPlayer);
+        gameManager.gameStarted = true;
     }
 
     private void JoinAll(SocketIOEvent e)
@@ -159,6 +161,5 @@ public class Menu : MonoBehaviour
             gameManager.AddPlayer(int.Parse(playerElement.GetField("id").Print()), playerElement.GetField("name").Print());
         }
       
-    }
-        
+    } 
  }

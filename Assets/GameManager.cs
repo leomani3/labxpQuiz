@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using SocketIO;
 
 public class GameManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
     public static List<Question> questions;
     public List<GameObject> chairs;
     public Material[] materials;
+    public GameObject AnswerPrefabs;
+    public bool gameStarted = false;
 
     //--PLAYER
     private int playerId = 985;
@@ -23,11 +26,13 @@ public class GameManager : MonoBehaviour
     private Dictionary<int, string> players = new Dictionary<int, string>();
     private int currentQuestion;
     private bool isCorrectAnswer = false;
-    private bool gameStarted = false;
     private int nbQuestion = 0;
+    private Text QuestionsUI;
+    private List<GameObject> ListButtonAnswers;
 
     //--SERVEUR
     private SocketIOComponent socket;
+    private bool initialized = false;
 
     public static GameManager Instance
     {
@@ -50,7 +55,7 @@ public class GameManager : MonoBehaviour
         DisplayHasAnswered();
 
         questions = new List<Question>();
-
+        ListButtonAnswers = new List<GameObject>();
         //--SERVEUR-------
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
 
@@ -61,14 +66,39 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameStarted)
+
+        if (SceneManager.GetActiveScene().name == "MainStage")
         {
-            //TODO : faire ici la boucle de jeu
-            //getCurrentQuestion
-            //affichage de la question a l'écran
-            //lancement du timer de la question
-                //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
-                //pendant que les joueurs répondent Lancer DisplayHasAnswered() à chaque update
+            if (!initialized)
+            {
+                Init(nbPlayer);
+                //TODO : faire ici la boucle de jeu
+                socket.On("getCurrentQuestion", getCurrentQuestion);
+                Debug.Log(SceneManager.GetActiveScene().name);
+                QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
+                QuestionsUI.text = questions[currentQuestion].GetEnonce();
+
+                //lancement du timer de la question
+                //les differentes questions 
+                int nbAnswer = questions[currentQuestion].GetReponses().Count;
+                List<string> Answers = questions[currentQuestion].GetReponses();
+                int rightAnswer = questions[currentQuestion].GetBonneReponse();
+
+                for (int i = 0; i < nbAnswer; i++)
+                {
+                    Vector3 pos = new Vector3(647, 450 - (i * 70), 0);
+
+                    GameObject AnswerInstantiate = Instantiate(AnswerPrefabs, pos, Quaternion.identity, GameObject.Find("GridLayout").transform);
+                    // AnswerInstantiate.transform.SetParent(GameObject.Find("Canvas").transform);
+
+                    ListButtonAnswers.Add(AnswerInstantiate);
+                    AnswerInstantiate.GetComponent<AnswerButton>().goodAnswer = RightAnswer(rightAnswer, i);
+                    AnswerInstantiate.GetComponentInChildren<Text>().text = Answers[i];
+                }
+                initialized = true;
+            }
+            //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
+            //pendant que les joueurs répondent Lancer DisplayHasAnswered() à chaque update
             //à la fin du timer afficher les reponses de jouer = DisplayIsCorrectAnswer()
             //lancement du timer inter-question
             //à la fin du timer inter-question (environ 5s) appeler ResetPlayersAnswer()
@@ -165,11 +195,15 @@ public class GameManager : MonoBehaviour
         {
             playersAnswer.Add(i, -1);
         }
-        gameStarted = true;
     }
 
     public void AddPlayer(int id, string n)
     {
         players.Add(id, n);
+    }
+
+    bool RightAnswer(int rightAnswer, int idAnswer)
+    {
+        return rightAnswer == idAnswer;
     }
 }
