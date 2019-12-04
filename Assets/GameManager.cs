@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using SocketIO;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private static GameManager instance;
+
     QuestionParser qp;
     public static List<Question> questions;
     public List<GameObject> chairs;
@@ -21,22 +23,37 @@ public class GameManager : MonoBehaviour
     private Dictionary<int, string> players = new Dictionary<int, string>();
     private int currentQuestion;
     private bool isCorrectAnswer = false;
+    private bool gameStarted = false;
+    private int nbQuestion = 0;
 
     //--SERVEUR
     private SocketIOComponent socket;
 
-    void Awake()
+    public static GameManager Instance
     {
-        qp = new QuestionParser();
-        questions = qp.ParseTxt();
+        get
+        {
+            if (instance == null)
+            {
+                instance = GameObject.FindObjectOfType<GameManager>();
+            }
+
+            return instance;
+        }
+    }
+
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+
         ResetPlayersAnswer();
         DisplayHasAnswered();
 
+        questions = new List<Question>();
 
         //--SERVEUR-------
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
 
-        socket.On("getQuestions", getQuestions);
         socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("setReponse", getIsCorrectAnswer);
     }
@@ -44,9 +61,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (gameStarted)
         {
-            socket.Emit("getQuestions");
+            //TODO : faire ici la boucle de jeu
+            //getCurrentQuestion
+            //affichage de la question a l'écran
+            //lancement du timer de la question
+                //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
+                //pendant que les joueurs répondent Lancer DisplayHasAnswered() à chaque update
+            //à la fin du timer afficher les reponses de jouer = DisplayIsCorrectAnswer()
+            //lancement du timer inter-question
+            //à la fin du timer inter-question (environ 5s) appeler ResetPlayersAnswer()
+            //tester si c'est la fin du jeu
+            //affichage des score = La fonction est pas encore faite. Ni l'écran d'affichage
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -58,11 +85,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     private void getIsCorrectAnswer(SocketIOEvent e)
     {
         int pId = int.Parse(e.data.GetField("id").ToString());
         int pAnswer = int.Parse(e.data.GetField("answer").ToString());
-        Debug.Log(pId+" "+pAnswer);
         playersAnswer[pId] = pAnswer;
     }
 
@@ -78,28 +105,6 @@ public class GameManager : MonoBehaviour
     private void getCurrentQuestion(SocketIOEvent e)
     {
         currentQuestion = int.Parse(e.data.GetField("question").ToString());
-    }
-
-    private void getQuestions(SocketIOEvent e)
-    {
-        int nbQuestion = e.data.GetField("questions").Count;
-        Debug.Log(e.data.GetField("questions"));
-        for (int i = 0; i < nbQuestion; i++)
-        {
-            int nbReponse = e.data.GetField("questions")[i].GetField("answer").Count;
-            List<string> reponses = new List<string>();
-            Question q = new Question();
-
-            q.SetEnonce(e.data.GetField("questions")[i].GetField("title").str);
-            q.SetBonneReponse(int.Parse(e.data.GetField("questions")[i].GetField("goodAnswer").str));
-            for (int j = 0; j < nbReponse; j++)
-            {
-                reponses.Add(e.data.GetField("questions")[i].GetField("answer").GetField(j.ToString()).str);
-            }
-            q.SetReponses(reponses);
-
-            questions.Add(q);
-        }
     }
 
     /// <summary>
@@ -147,5 +152,24 @@ public class GameManager : MonoBehaviour
         {
             playersAnswer[i] = -1;
         }
+    }
+
+    public void Init(int nbP)
+    {
+        nbPlayer = nbP;
+
+        nbQuestion = questions.Count;
+
+        //initialisation de la liste des reponses
+        foreach (int i in players.Keys)
+        {
+            playersAnswer.Add(i, -1);
+        }
+        gameStarted = true;
+    }
+
+    public void AddPlayer(int id, string n)
+    {
+        players.Add(id, n);
     }
 }
