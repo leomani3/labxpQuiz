@@ -10,8 +10,11 @@ public class AnswerButton : MonoBehaviour
 
     private SocketIOComponent socket;
 
-    public void hasAnswer()
+    public void Answer()
     {
-        GameObject.Find("GameManager").GetComponent<GameManager>().GetSocket().Emit("respond");
+        JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
+        j.AddField("id", GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerId());
+        GameObject.Find("GameManager").GetComponent<GameManager>().GetSocket().Emit("responded", j);
+        GameObject.Find("GameManager").GetComponent<GameManager>().SetHasAnswered();
     }
 }

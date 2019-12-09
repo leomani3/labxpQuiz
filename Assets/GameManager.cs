@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     //--PARTIE
     private int nbPlayer = 10;
     private Dictionary<int, int> playersAnswer = new Dictionary<int, int>();
+    private Dictionary<int, int> playersHasAnswered = new Dictionary<int, int>();
     private Dictionary<int, string> players = new Dictionary<int, string>();
     private int currentQuestion;
     private bool isCorrectAnswer = false;
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        chairs = new List<GameObject>();
 
         ResetPlayersAnswer();
         DisplayHasAnswered();
@@ -61,11 +63,28 @@ public class GameManager : MonoBehaviour
 
         socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("setReponse", getIsCorrectAnswer);
+        socket.On("responded", aPlayerResponded);
     }
 
     public SocketIOComponent GetSocket()
     {
         return socket;
+    }
+
+    public void SetPlayerId(int i)
+    {
+        playerId = i;
+    }
+
+    public void InitialiseChairs()
+    {
+        Debug.Log("Chairs initalisées");
+        GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
+        Debug.Log("LENGTH : "+tmp.Length);
+        for (int i = 0; i < tmp.Length; i++)
+        {
+            chairs.Add(tmp[i]);
+        }
     }
 
     // Update is called once per frame
@@ -76,7 +95,9 @@ public class GameManager : MonoBehaviour
         {
             if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
+                                InitialiseChairs();
                 Init(nbPlayer);
+                DisplayHasAnswered();
                 //TODO : faire ici la boucle de jeu
                 socket.On("getCurrentQuestion", getCurrentQuestion);
                 Debug.Log(SceneManager.GetActiveScene().name);
@@ -121,7 +142,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void aPlayerResponded(SocketIOEvent e)
+    {
+        Debug.Log("UN PLAYER A REPONDU");
+        int pId = int.Parse(e.data.GetField("id").ToString());
+        playersHasAnswered[pId] = 1;
+    }
 
+    public void SetHasAnswered()
+    {
+        playersHasAnswered[playerId] = 1;
+        DisplayHasAnswered();
+    }
     private void getIsCorrectAnswer(SocketIOEvent e)
     {
         int pId = int.Parse(e.data.GetField("id").ToString());
@@ -166,10 +198,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DisplayHasAnswered()
     {
-        foreach (int i in playersAnswer.Keys)
+        foreach (int i in playersHasAnswered.Keys)
         {
-            if (playersAnswer[i] != -1)
+            Debug.Log("BLBLBLBL : "+playersHasAnswered.Keys.Count);
+            if (playersHasAnswered[i] != -1)
             {
+                Debug.Log("INDEX : " + i);
                 chairs[i].GetComponent<MeshRenderer>().material = materials[1];
             }
             else
@@ -187,6 +221,7 @@ public class GameManager : MonoBehaviour
         foreach (int i in playersAnswer.Keys)
         {
             playersAnswer[i] = -1;
+            playersHasAnswered[i] = -1;
         }
     }
 
@@ -196,10 +231,11 @@ public class GameManager : MonoBehaviour
 
         nbQuestion = questions.Count;
 
-        //initialisation de la liste des reponses
+        //initialisation de la listes des reponses
         foreach (int i in players.Keys)
         {
             playersAnswer.Add(i, -1);
+            playersHasAnswered.Add(i, -1);
         }
     }
 
@@ -211,5 +247,10 @@ public class GameManager : MonoBehaviour
     bool RightAnswer(int rightAnswer, int idAnswer)
     {
         return rightAnswer == idAnswer;
+    }
+
+    public int GetPlayerId()
+    {
+        return playerId;
     }
 }

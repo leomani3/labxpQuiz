@@ -77,7 +77,7 @@ public class Menu : MonoBehaviour
         string nbPlayerSt = e.data.GetField("nbPlayer").Print();
         string idPlayerSt = e.data.GetField("id").Print();
         nbPlayer = int.Parse(nbPlayerSt);
-        idPlayer = int.Parse(idPlayerSt);
+        idPlayer = int.Parse(idPlayerSt) - 1;
         //PlaceTextElement(nbPlayer, idPlayer,"");
 
         GameObject inputNamePlayer = GameObject.Find("InputNamePlayer");
@@ -101,6 +101,7 @@ public class Menu : MonoBehaviour
        
         GameManager.questions = questions;
         Debug.Log(GameManager.questions.Count);
+        gameManager.SetPlayerId(idPlayer);
         SceneManager.LoadScene("MainStage");
         gameManager.gameStarted = true;
     }

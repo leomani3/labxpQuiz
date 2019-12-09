@@ -138,7 +138,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-13212
+  m_Name: pb_Mesh22948
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -301,7 +301,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-13206
+  m_Name: pb_Mesh23074
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -542,7 +542,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-10900
+  m_Name: pb_Mesh22978
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -705,7 +705,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-10902
+  m_Name: pb_Mesh22990
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -874,7 +874,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-10898
+  m_Name: pb_Mesh23024
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1037,7 +1037,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-7358
+  m_Name: pb_Mesh23062
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1200,7 +1200,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-13202
+  m_Name: pb_Mesh23004
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1369,7 +1369,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-13208
+  m_Name: pb_Mesh23010
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1549,25 +1549,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot11
       objectReference: {fileID: 0}
+    - target: {fileID: 6800120596085807102, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     - target: {fileID: 6800120595658279986, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Name
       value: Slot12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120595658279986, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
       objectReference: {fileID: 0}
     - target: {fileID: 6800120596282547663, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Name
       value: Slot7
       objectReference: {fileID: 0}
+    - target: {fileID: 6800120596282547663, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     - target: {fileID: 6800120595417460264, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Name
       value: Slot10
       objectReference: {fileID: 0}
+    - target: {fileID: 6800120595417460264, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     - target: {fileID: 6800120596054045525, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Name
       value: Slot9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120596054045525, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
       objectReference: {fileID: 0}
     - target: {fileID: 6800120596195206886, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
@@ -1703,6 +1728,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Slot8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120596192447573, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45854e2cedfb6944ca0058f1ef67035a, type: 3}
@@ -1886,7 +1916,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-13210
+  m_Name: pb_Mesh22970
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2049,7 +2079,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-12914
+  m_Name: pb_Mesh22986
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2218,7 +2248,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-12918
+  m_Name: pb_Mesh23056
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2438,7 +2468,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-12922
+  m_Name: pb_Mesh23058
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2601,7 +2631,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-12912
+  m_Name: pb_Mesh23022
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2764,7 +2794,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-10846
+  m_Name: pb_Mesh-62190
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2939,7 +2969,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-10904
+  m_Name: pb_Mesh23002
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3102,7 +3132,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-12916
+  m_Name: pb_Mesh22982
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3276,25 +3306,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot17
       objectReference: {fileID: 0}
+    - target: {fileID: 6800120596085807102, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     - target: {fileID: 6800120595658279986, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Name
       value: Slot18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120595658279986, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
       objectReference: {fileID: 0}
     - target: {fileID: 6800120596282547663, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Name
       value: Slot13
       objectReference: {fileID: 0}
+    - target: {fileID: 6800120596282547663, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     - target: {fileID: 6800120595417460264, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Name
       value: Slot16
       objectReference: {fileID: 0}
+    - target: {fileID: 6800120595417460264, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     - target: {fileID: 6800120596054045525, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Name
       value: Slot15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120596054045525, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
       objectReference: {fileID: 0}
     - target: {fileID: 6800120596195206886, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
@@ -3431,6 +3486,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot14
       objectReference: {fileID: 0}
+    - target: {fileID: 6800120596192447573, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45854e2cedfb6944ca0058f1ef67035a, type: 3}
 --- !u!43 &1580114146
@@ -3439,7 +3499,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-13204
+  m_Name: pb_Mesh22988
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3602,7 +3662,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-10906
+  m_Name: pb_Mesh22954
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3765,7 +3825,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-10896
+  m_Name: pb_Mesh22956
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3928,7 +3988,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-13200
+  m_Name: pb_Mesh-62118
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4230,7 +4290,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-12920
+  m_Name: pb_Mesh22946
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4399,6 +4459,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tribune
       objectReference: {fileID: 0}
+    - target: {fileID: 6800120596085807102, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120595658279986, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120596282547663, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120595417460264, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800120596054045525, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     - target: {fileID: 6800120596195206886, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4473,7 +4558,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 20b00611c163b4b4a80287dcb3759b0f, type: 2}
+      objectReference: {fileID: 2100000, guid: fed88525763eced4189a34f4c98b3645, type: 2}
     - target: {fileID: 6800120596282547665, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Mesh
@@ -4529,16 +4614,21 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 522839840}
+    - target: {fileID: 6800120596192447573, guid: 45854e2cedfb6944ca0058f1ef67035a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Chair
+      objectReference: {fileID: 0}
     - target: {fileID: 6800120596054045529, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 99bb4f7ce36b27448825256f5b96f19b, type: 2}
+      objectReference: {fileID: 2100000, guid: fed88525763eced4189a34f4c98b3645, type: 2}
     - target: {fileID: 6800120596192447577, guid: 45854e2cedfb6944ca0058f1ef67035a,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 60ee3a0d868ce2d45aa2c02a55abe7c1, type: 2}
+      objectReference: {fileID: 2100000, guid: fed88525763eced4189a34f4c98b3645, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45854e2cedfb6944ca0058f1ef67035a, type: 3}
 --- !u!1 &2005112445 stripped
@@ -4559,7 +4649,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-12924
+  m_Name: pb_Mesh-62040
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
