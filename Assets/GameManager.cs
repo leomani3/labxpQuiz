@@ -63,13 +63,18 @@ public class GameManager : MonoBehaviour
         socket.On("setReponse", getIsCorrectAnswer);
     }
 
+    public SocketIOComponent GetSocket()
+    {
+        return socket;
+    }
+
     // Update is called once per frame
     void Update()
     {
 
         if (SceneManager.GetActiveScene().name == "MainStage")
         {
-            if (!initialized)
+            if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
                 Init(nbPlayer);
                 //TODO : faire ici la boucle de jeu
@@ -89,6 +94,7 @@ public class GameManager : MonoBehaviour
                     Vector3 pos = new Vector3(647, 450 - (i * 70), 0);
 
                     GameObject AnswerInstantiate = Instantiate(AnswerPrefabs, pos, Quaternion.identity, GameObject.Find("GridLayout").transform);
+                    AnswerInstantiate.GetComponent<AnswerButton>().index = i;
                     // AnswerInstantiate.transform.SetParent(GameObject.Find("Canvas").transform);
 
                     ListButtonAnswers.Add(AnswerInstantiate);
