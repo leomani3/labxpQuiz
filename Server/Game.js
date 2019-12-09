@@ -25,6 +25,9 @@ function join(socket){
 		socket.emit("join",{id : idPlayer, nbPlayer : playerNumber,namePlayerJson} );
 	});
 
+	socket.on('responded', function(data ){
+		socket.broadcast.emit("responded",{id : data.id} )
+	})
 
 	socket.on('getQuestions', function(data ){
 		socket.emit("getQuestions",{questions} )
