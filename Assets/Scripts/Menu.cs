@@ -55,7 +55,7 @@ public class Menu : MonoBehaviour
             q.SetReponses(reponses);
             questions.Add(q);
         }
-        Debug.Log("hhhhh" + questions.Count);
+        //Debug.Log("hhhhh" + questions.Count);
     }
 
 
@@ -73,7 +73,7 @@ public class Menu : MonoBehaviour
 
     private void Join(SocketIOEvent e)
     {
-        Debug.Log(e.data.GetField("namePlayerJson"));
+        //Debug.Log(e.data.GetField("namePlayerJson"));
         string nbPlayerSt = e.data.GetField("nbPlayer").Print();
         string idPlayerSt = e.data.GetField("id").Print();
         nbPlayer = int.Parse(nbPlayerSt);
@@ -122,10 +122,10 @@ public class Menu : MonoBehaviour
 
     private void PlaceTextOtherPlayers()
     {
-        Debug.Log(nbPlayer);
+        //Debug.Log(nbPlayer);
         for (int i = 0; i < listPlayer.Count; i++)
         {
-            Debug.Log("sa passe");
+            //Debug.Log("sa passe");
             PlaceTextElement(i, listPlayer[i].name);
         }   
     }

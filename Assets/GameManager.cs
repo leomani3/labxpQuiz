@@ -66,27 +66,6 @@ public class GameManager : MonoBehaviour
         socket.On("responded", aPlayerResponded);
     }
 
-    public SocketIOComponent GetSocket()
-    {
-        return socket;
-    }
-
-    public void SetPlayerId(int i)
-    {
-        playerId = i;
-    }
-
-    public void InitialiseChairs()
-    {
-        Debug.Log("Chairs initalisées");
-        GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
-        Debug.Log("LENGTH : "+tmp.Length);
-        for (int i = 0; i < tmp.Length; i++)
-        {
-            chairs.Add(tmp[i]);
-        }
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -142,6 +121,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public SocketIOComponent GetSocket()
+    {
+        return GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+    }
+
+    public void SetPlayerId(int i)
+    {
+        playerId = i;
+    }
+
+    public void InitialiseChairs()
+    {
+        Debug.Log("Chairs initalisées");
+        GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
+        Debug.Log("LENGTH : " + tmp.Length);
+        for (int i = 0; i < tmp.Length; i++)
+        {
+            chairs.Add(tmp[i]);
+        }
+    }
+
     private void aPlayerResponded(SocketIOEvent e)
     {
         Debug.Log("UN PLAYER A REPONDU");
@@ -149,11 +149,12 @@ public class GameManager : MonoBehaviour
         playersHasAnswered[pId] = 1;
     }
 
-    public void SetHasAnswered()
+    /*public void SetHasAnswered()
     {
         playersHasAnswered[playerId] = 1;
         DisplayHasAnswered();
-    }
+    }*/
+
     private void getIsCorrectAnswer(SocketIOEvent e)
     {
         int pId = int.Parse(e.data.GetField("id").ToString());

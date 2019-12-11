@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/SocketIO/Scenes/SocketIOTest.unity
     guid: d0610c6cbb3e14cb6961f361c3ba23fe
   - enabled: 1
