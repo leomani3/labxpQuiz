@@ -144,16 +144,17 @@ public class GameManager : MonoBehaviour
 
     private void aPlayerResponded(SocketIOEvent e)
     {
-        Debug.Log("UN PLAYER A REPONDU");
         int pId = int.Parse(e.data.GetField("id").ToString());
+        Debug.Log("UN PLAYER A REPONDU id : " +pId);
         playersHasAnswered[pId] = 1;
     }
 
-    /*public void SetHasAnswered()
+    public void SetHasAnswered()
     {
+        Debug.Log("ID : "+playerId);
         playersHasAnswered[playerId] = 1;
         DisplayHasAnswered();
-    }*/
+    }
 
     private void getIsCorrectAnswer(SocketIOEvent e)
     {

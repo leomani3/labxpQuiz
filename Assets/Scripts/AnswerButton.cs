@@ -14,7 +14,8 @@ public class AnswerButton : MonoBehaviour
     {
         JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
         j.AddField("id", GameObject.Find("GameManager").GetComponent<GameManager>().GetPlayerId());
+        GameObject.Find("GameManager").GetComponent<GameManager>().SetHasAnswered();
         GameObject.Find("GameManager").GetComponent<GameManager>().GetSocket().Emit("responded", j);
-        //GameObject.Find("GameManager").GetComponent<GameManager>().SetHasAnswered();
+
     }
 }
