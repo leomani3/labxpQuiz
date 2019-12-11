@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public Material[] materials;
     public GameObject AnswerPrefabs;
     public bool gameStarted = false;
-
+    public List<string> responses;
     //--PLAYER
     private int playerId = 985;
     private string playerName;
@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     //--PARTIE
     private int nbPlayer = 10;
     private Dictionary<int, int> playersAnswer = new Dictionary<int, int>();
+    [SerializeField]
     private Dictionary<int, int> playersHasAnswered = new Dictionary<int, int>();
     private Dictionary<int, string> players = new Dictionary<int, string>();
     private int currentQuestion;
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
         ListButtonAnswers = new List<GameObject>();
         //--SERVEUR-------
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
-
+        responses = new List<string>();
         socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("setReponse", getIsCorrectAnswer);
         socket.On("responded", aPlayerResponded);
@@ -144,8 +145,9 @@ public class GameManager : MonoBehaviour
     private void aPlayerResponded(SocketIOEvent e)
     {
         int pId = int.Parse(e.data.GetField("id").ToString());
-        Debug.Log("UN PLAYER A REPONDU id : " +pId);
+        print("UN PLAYER A REPONDU id : " +pId);
         playersHasAnswered[pId] = 1;
+        responses.Add(pId.ToString());
     }
 
     public void SetHasAnswered()
