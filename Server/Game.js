@@ -26,7 +26,7 @@ function join(socket){
 	});
 
 	socket.on('responded', function(data ){
-		console.log("sa passe");
+		console.log(data);
 		socket.broadcast.emit("responded",{id : data.id} )
 		socket.emit("responded",{id : data.id} )
 	})

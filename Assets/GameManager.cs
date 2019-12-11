@@ -133,7 +133,6 @@ public class GameManager : MonoBehaviour
 
     public void InitialiseChairs()
     {
-        Debug.Log("Chairs initalisées");
         GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
         Debug.Log("LENGTH : " + tmp.Length);
         for (int i = 0; i < tmp.Length; i++)
