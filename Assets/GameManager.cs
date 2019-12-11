@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         {
             if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
-                                InitialiseChairs();
+                InitialiseChairs();
                 Init(nbPlayer);
                 DisplayHasAnswered();
                 //TODO : faire ici la boucle de jeu
@@ -202,10 +202,8 @@ public class GameManager : MonoBehaviour
     {
         foreach (int i in playersHasAnswered.Keys)
         {
-            Debug.Log("BLBLBLBL : "+playersHasAnswered.Keys.Count);
             if (playersHasAnswered[i] != -1)
             {
-                Debug.Log("INDEX : " + i);
                 chairs[i].GetComponent<MeshRenderer>().material = materials[1];
             }
             else

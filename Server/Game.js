@@ -33,6 +33,7 @@ function join(socket){
 
 	socket.on('getQuestions', function(data ){
 		socket.emit("getQuestions",{questions} )
+		socket.broadcast.emit("getQuestions",{questions} )
 	})
 	
 	

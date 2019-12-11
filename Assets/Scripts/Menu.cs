@@ -55,6 +55,12 @@ public class Menu : MonoBehaviour
             q.SetReponses(reponses);
             questions.Add(q);
         }
+
+        GameManager.questions = questions;
+        Debug.Log("QUESTIONS RECUES");
+        gameManager.SetPlayerId(idPlayer);
+        SceneManager.LoadScene("MainStage");
+        gameManager.gameStarted = true;
         //Debug.Log("hhhhh" + questions.Count);
     }
 
@@ -68,7 +74,6 @@ public class Menu : MonoBehaviour
         namePlayer = namePlayerInput;
         j.AddField("name", namePlayer);
         socket.Emit("join", j);
-        socket.Emit("getQuestions");
     }
 
     private void Join(SocketIOEvent e)
@@ -97,13 +102,10 @@ public class Menu : MonoBehaviour
 
     public void StartGame()
     {
+        socket.Emit("getQuestions");
         //passer toutes les variables necessaires au GameManager
-       
-        GameManager.questions = questions;
-        Debug.Log(GameManager.questions.Count);
-        gameManager.SetPlayerId(idPlayer);
-        SceneManager.LoadScene("MainStage");
-        gameManager.gameStarted = true;
+
+
     }
 
     private void JoinAll(SocketIOEvent e)
