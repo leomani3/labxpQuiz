@@ -33,8 +33,24 @@ public class Menu : MonoBehaviour
         socket.On("join", Join);
         socket.On("joinAll", JoinAll);
         socket.On("getQuestions", getQuestions);
+        socket.On("respondedd", blbl);
 
         listPlayer = new List<Player>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
+            j.AddField("id", 111);
+            socket.Emit("responded", j);
+        }
+    }
+
+    private void blbl(SocketIOEvent e)
+    {
+        Debug.Log("RESPONDEDD");
     }
 
     private void getQuestions(SocketIOEvent e)

@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         responses = new List<string>();
         /*socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("setReponse", getIsCorrectAnswer);*/
-        socket.On("respondedd", aPlayerResponded);
+       socket.On("respondedd", aPlayerResponded);
     }
 
     // Update is called once per frame
@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
         {
             if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
+                socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+                SetupServerOn();
                 InitialiseChairs();
                 Init(nbPlayer);
                 DisplayHasAnswered();
@@ -121,6 +123,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SetupServerOn()
+    {
+        socket.On("respondedd", aPlayerResponded);
+    }
+
     public SocketIOComponent GetSocket()
     {
         return GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
@@ -143,11 +150,11 @@ public class GameManager : MonoBehaviour
 
     public void aPlayerResponded(SocketIOEvent e)
     {
-        Debug.Log("Je suis rentré dans la fonction aPlayerResponded");
         int pId = int.Parse(e.data.GetField("id").ToString());
         Debug.Log("UN PLAYER A REPONDU id : " +pId);
         playersHasAnswered[pId] = 1;
-        responses.Add(pId.ToString());
+        DisplayHasAnswered();
+        //responses.Add(pId.ToString());
     }
 
     public void SetHasAnswered()
