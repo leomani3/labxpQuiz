@@ -134,11 +134,11 @@ public class GameManager : MonoBehaviour
 
     public void InitialiseChairs()
     {
-        GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
-        Debug.Log("LENGTH : " + tmp.Length);
-        for (int i = 0; i < tmp.Length; i++)
+        //GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
+        for (int i = 0; i < 18; i++)
         {
-            chairs.Add(tmp[i]);
+            chairs.Add(GameObject.Find("Slot"+(i+1)));
+            Debug.Log(GameObject.Find("Slot" + (i + 1)));
         }
     }
 
