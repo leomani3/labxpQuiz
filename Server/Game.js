@@ -16,6 +16,7 @@ function join(socket){
 		idPlayer = playerNumber;
 		namePlayer = data.name;
 		
+		console.log(playerNumber);
 		// session
 		socket.broadcast.emit("joinAll",{id : idPlayer,name : namePlayer});
 		scorePlayer.set(idPlayer, 0);

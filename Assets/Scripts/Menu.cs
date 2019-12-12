@@ -31,7 +31,7 @@ public class Menu : MonoBehaviour
         nbPlayer = 0;
 
         socket.On("join", Join);
-        socket.On("joinAll", JoinAll);
+       
         socket.On("getQuestions", getQuestions);
         socket.On("respondedd", blbl);
 
@@ -98,7 +98,7 @@ public class Menu : MonoBehaviour
         string nbPlayerSt = e.data.GetField("nbPlayer").Print();
         string idPlayerSt = e.data.GetField("id").Print();
         nbPlayer = int.Parse(nbPlayerSt);
-        idPlayer = int.Parse(idPlayerSt) - 1;
+        idPlayer = int.Parse(idPlayerSt);
         //PlaceTextElement(nbPlayer, idPlayer,"");
 
         GameObject inputNamePlayer = GameObject.Find("InputNamePlayer");
@@ -114,6 +114,7 @@ public class Menu : MonoBehaviour
         {
             startButton.SetActive(true);
         }
+        socket.On("joinAll", JoinAll);
     }
 
     public void StartGame()
@@ -126,7 +127,9 @@ public class Menu : MonoBehaviour
 
     private void JoinAll(SocketIOEvent e)
     {
-        Debug.Log(e.data);
+   
+        AddOtherPlayer(e.data);
+        PlaceTextOtherPlayers();
     }
 
 
@@ -144,7 +147,7 @@ public class Menu : MonoBehaviour
         for (int i = 0; i < listPlayer.Count; i++)
         {
             //Debug.Log("sa passe");
-            PlaceTextElement(i, listPlayer[i].name);
+            PlaceTextElement(i+1, listPlayer[i].name);
         }   
     }
 
@@ -180,5 +183,16 @@ public class Menu : MonoBehaviour
             gameManager.AddPlayer(int.Parse(playerElement.GetField("id").Print()), playerElement.GetField("name").Print());
         }
       
-    } 
+    }
+
+    private void AddOtherPlayer(JSONObject data)
+    {
+        string namePlayer = data.GetField("name").Print();
+        string idPlayer = data.GetField("id").Print();
+        Player player = new Player(int.Parse(idPlayer), namePlayer) as Player;
+        listPlayer.Add(player);
+        gameManager.AddPlayer(int.Parse(idPlayer), namePlayer);
+
+
+    }
  }
