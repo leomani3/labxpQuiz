@@ -25,10 +25,10 @@ function join(socket){
 		socket.emit("join",{id : idPlayer, nbPlayer : playerNumber,namePlayerJson} );
 	});
 
-	socket.on('responded', function(data ){
+	socket.on('responded', function(data){
 		console.log(data);
-		socket.broadcast.emit("responded",{id : data.id} )
-		socket.emit("responded",{id : data.id} )
+		socket.broadcast.emit("respondedd",{id : data.id} )
+		socket.emit("respondedd",{id : data.id} )
 	})
 
 	socket.on('getQuestions', function(data ){

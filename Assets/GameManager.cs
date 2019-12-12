@@ -62,9 +62,9 @@ public class GameManager : MonoBehaviour
         //--SERVEUR-------
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
         responses = new List<string>();
-        socket.On("getCurrentQuestion", getCurrentQuestion);
-        socket.On("setReponse", getIsCorrectAnswer);
-        socket.On("responded", aPlayerResponded);
+        /*socket.On("getCurrentQuestion", getCurrentQuestion);
+        socket.On("setReponse", getIsCorrectAnswer);*/
+        socket.On("respondedd", aPlayerResponded);
     }
 
     // Update is called once per frame
@@ -80,7 +80,6 @@ public class GameManager : MonoBehaviour
                 DisplayHasAnswered();
                 //TODO : faire ici la boucle de jeu
                 socket.On("getCurrentQuestion", getCurrentQuestion);
-                Debug.Log(SceneManager.GetActiveScene().name);
                 QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
                 QuestionsUI.text = questions[currentQuestion].GetEnonce();
 
