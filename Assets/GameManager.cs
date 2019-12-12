@@ -142,10 +142,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void aPlayerResponded(SocketIOEvent e)
+    public void aPlayerResponded(SocketIOEvent e)
     {
+        Debug.Log("Je suis rentré dans la fonction aPlayerResponded");
         int pId = int.Parse(e.data.GetField("id").ToString());
-        print("UN PLAYER A REPONDU id : " +pId);
+        Debug.Log("UN PLAYER A REPONDU id : " +pId);
         playersHasAnswered[pId] = 1;
         responses.Add(pId.ToString());
     }
