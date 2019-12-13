@@ -8,6 +8,8 @@ using SocketIO;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    //--UI
+    public GameObject playerUi;
 
     QuestionParser qp;
     public static List<Question> questions;
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Dictionary<int, int> playersHasAnswered = new Dictionary<int, int>();
     private Dictionary<int, string> players = new Dictionary<int, string>();
+    private Dictionary<int, int> scores = new Dictionary<int, int>();
     private int currentQuestion;
     private bool isCorrectAnswer = false;
     private int nbQuestion = 0;
@@ -123,12 +126,14 @@ public class GameManager : MonoBehaviour
             AnswerInstantiate.GetComponentInChildren<Text>().text = Answers[i];
         }
         initialized = true;
+        SetUpClassement();
     }
 
     public void SetupServerOn()
     {
         socket.On("respondedd", aPlayerResponded);
         socket.On("getCurrentQuestion", getCurrentQuestion);
+        socket.On("getScore",setupdicoScore);
     }
 
     public IEnumerator StartQuestion()
@@ -161,7 +166,7 @@ public class GameManager : MonoBehaviour
     public void aPlayerResponded(SocketIOEvent e)
     {
         int pId = int.Parse(e.data.GetField("id").ToString());
-        Debug.Log("UN PLAYER A REPONDU id : " +pId);
+        Debug.Log("UN PLAYER A REPONDU id : " + pId);
         playersHasAnswered[pId] = 1;
         DisplayHasAnswered();
         //responses.Add(pId.ToString());
@@ -271,5 +276,57 @@ public class GameManager : MonoBehaviour
     public int GetPlayerId()
     {
         return playerId;
+    }
+
+    void SetUpClassement()
+    {
+        socket.Emit("getScore");
+        Debug.Log("dffffffffffffffffffffffffff");
+        List<int> classementID = sortbyScore();
+        Debug.Log(classementID.Count);
+        //classement des joueurs dans une list 
+
+        /* foreach (int i in players.Keys)
+         {
+             GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);  
+             UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2);
+         }*/
+        for (int i = 0; i < classementID.Count; i++)
+        {
+            GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);
+            
+            Debug.Log(players[i].Substring(1, players[i].Length - 2));
+            UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2);
+        }
+    }
+
+    void setupdicoScore(SocketIOEvent e)
+    {
+        JSONObject jsonListScore = e.data.GetField("scoreJSON");
+        for (int i = 0; i < jsonListScore.Count; i++)
+        {
+            int id = int.Parse(jsonListScore[i].GetField("id").ToString());
+            int score = int.Parse(jsonListScore[i].GetField("score").ToString());
+
+            scores.Add(id, score);
+        }
+    }
+
+    List<int> sortbyScore()
+    {
+        List<int> result = new List<int>();
+        int scoremax = 0;
+        foreach (int id in scores.Keys)
+        {
+            if (scoremax < scores[id])
+            {
+                result.Insert(0, id);
+            }
+            else
+            {
+                result.Add(id);
+            }
+        }
+        return result;
     }
 }
