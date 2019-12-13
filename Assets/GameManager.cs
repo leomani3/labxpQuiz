@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     private Text QuestionsUI;
     private List<GameObject> ListButtonAnswers;
 
+    private bool inQuestion = false;
+
     //--SERVEUR
     private SocketIOComponent socket;
     private bool initialized = false;
@@ -62,8 +64,7 @@ public class GameManager : MonoBehaviour
         //--SERVEUR-------
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
         responses = new List<string>();
-        /*socket.On("getCurrentQuestion", getCurrentQuestion);
-        socket.On("setReponse", getIsCorrectAnswer);*/
+        //socket.On("setReponse", getIsCorrectAnswer);
        socket.On("respondedd", aPlayerResponded);
     }
 
@@ -81,29 +82,10 @@ public class GameManager : MonoBehaviour
                 Init(nbPlayer);
                 DisplayHasAnswered();
                 //TODO : faire ici la boucle de jeu
-                socket.On("getCurrentQuestion", getCurrentQuestion);
                 QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
                 QuestionsUI.text = questions[currentQuestion].GetEnonce();
 
-                //lancement du timer de la question
-                //les differentes questions 
-                int nbAnswer = questions[currentQuestion].GetReponses().Count;
-                List<string> Answers = questions[currentQuestion].GetReponses();
-                int rightAnswer = questions[currentQuestion].GetBonneReponse();
-
-                for (int i = 0; i < nbAnswer; i++)
-                {
-                    Vector3 pos = new Vector3(647, 450 - (i * 70), 0);
-
-                    GameObject AnswerInstantiate = Instantiate(AnswerPrefabs, pos, Quaternion.identity, GameObject.Find("GridLayout").transform);
-                    AnswerInstantiate.GetComponent<AnswerButton>().index = i;
-                    // AnswerInstantiate.transform.SetParent(GameObject.Find("Canvas").transform);
-
-                    ListButtonAnswers.Add(AnswerInstantiate);
-                    AnswerInstantiate.GetComponent<AnswerButton>().goodAnswer = RightAnswer(rightAnswer, i);
-                    AnswerInstantiate.GetComponentInChildren<Text>().text = Answers[i];
-                }
-                initialized = true;
+                DisplayQuestion();
             }
             //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
             //pendant que les joueurs répondent Lancer DisplayHasAnswered() à chaque update
@@ -123,9 +105,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DisplayQuestion()
+    {
+        int nbAnswer = questions[currentQuestion].GetReponses().Count;
+        List<string> Answers = questions[currentQuestion].GetReponses();
+        int rightAnswer = questions[currentQuestion].GetBonneReponse();
+        for (int i = 0; i < nbAnswer; i++)
+        {
+            Vector3 pos = new Vector3(647, 450 - (i * 70), 0);
+
+            GameObject AnswerInstantiate = Instantiate(AnswerPrefabs, pos, Quaternion.identity, GameObject.Find("GridLayout").transform);
+            AnswerInstantiate.GetComponent<AnswerButton>().index = i;
+            // AnswerInstantiate.transform.SetParent(GameObject.Find("Canvas").transform);
+
+            ListButtonAnswers.Add(AnswerInstantiate);
+            AnswerInstantiate.GetComponent<AnswerButton>().goodAnswer = RightAnswer(rightAnswer, i);
+            AnswerInstantiate.GetComponentInChildren<Text>().text = Answers[i];
+        }
+        initialized = true;
+    }
+
     public void SetupServerOn()
     {
         socket.On("respondedd", aPlayerResponded);
+        socket.On("getCurrentQuestion", getCurrentQuestion);
+    }
+
+    public IEnumerator StartQuestion()
+    {
+        inQuestion = true;
+        yield return new WaitForSeconds(30);
+        inQuestion = false;
     }
 
     public SocketIOComponent GetSocket()
@@ -183,6 +193,7 @@ public class GameManager : MonoBehaviour
     private void getCurrentQuestion(SocketIOEvent e)
     {
         currentQuestion = int.Parse(e.data.GetField("question").ToString());
+        StartCoroutine("StartQuestion");
     }
 
     /// <summary>
