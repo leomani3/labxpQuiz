@@ -98,7 +98,7 @@ public class Menu : MonoBehaviour
         string nbPlayerSt = e.data.GetField("nbPlayer").Print();
         string idPlayerSt = e.data.GetField("id").Print();
         nbPlayer = int.Parse(nbPlayerSt);
-        idPlayer = int.Parse(idPlayerSt);
+        idPlayer = int.Parse(idPlayerSt) - 1;
         //PlaceTextElement(nbPlayer, idPlayer,"");
 
         GameObject inputNamePlayer = GameObject.Find("InputNamePlayer");
@@ -137,7 +137,7 @@ public class Menu : MonoBehaviour
     {
 
         GameObject canvas = GameObject.Find("Text_player");
-        namePlayer = "Player " + idPlayer + " : " + namePlayer;
+        namePlayer = "Player " + (idPlayer+1) + " : " + namePlayer;
         CreateText(canvas.transform, 0, 0, namePlayer, 14, Color.black, idPlayer);
     }
 
@@ -147,7 +147,7 @@ public class Menu : MonoBehaviour
         for (int i = 0; i < listPlayer.Count; i++)
         {
             //Debug.Log("sa passe");
-            PlaceTextElement(i+1, listPlayer[i].name);
+            PlaceTextElement(i, listPlayer[i].name);
         }   
     }
 
