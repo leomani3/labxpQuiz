@@ -49,9 +49,9 @@ function join(socket){
 		goodAnswer = 0;
 		currentScore = scorePlayer.get(idPlayer);
 		
-		console.log(questions[numberQuestion].goodAnswer);
+		console.log(questions[numberQuestion-1].goodAnswer);
 		console.log(answer);
-		if(questions[numberQuestion].goodAnswer == answer){
+		if(questions[numberQuestion-1].goodAnswer == answer){
 			goodAnswer = 1;
 			currentScore++;
 			scorePlayer.set(idPlayer, currentScore);
