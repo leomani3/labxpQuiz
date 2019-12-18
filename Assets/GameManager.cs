@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using SocketIO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using SocketIO;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -98,10 +98,6 @@ public class GameManager : MonoBehaviour
             //tester si c'est la fin du jeu
             //affichage des score = La fonction est pas encore faite. Ni l'écran d'affichage
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            socket.Emit("getCurrentQuestion");
-        }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             SendReponse(1);
@@ -134,6 +130,11 @@ public class GameManager : MonoBehaviour
         socket.On("respondedd", aPlayerResponded);
         socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("getScore",setupdicoScore);
+        socket.On("setReponse", isGoodAnswer);
+    }
+    public void isGoodAnswer(SocketIOEvent e)
+    {
+        Debug.Log(e.data);
     }
 
     public IEnumerator StartQuestion()
@@ -163,6 +164,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SetPlayerAnswer(int i)
+    {
+        playersAnswer[playerId] = i;
+    }
+
     public void aPlayerResponded(SocketIOEvent e)
     {
         int pId = int.Parse(e.data.GetField("id").ToString());
@@ -177,13 +183,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("ID : "+playerId);
         playersHasAnswered[playerId] = 1;
         DisplayHasAnswered();
-    }
-
-    private void getIsCorrectAnswer(SocketIOEvent e)
-    {
-        int pId = int.Parse(e.data.GetField("id").ToString());
-        int pAnswer = int.Parse(e.data.GetField("answer").ToString());
-        playersAnswer[pId] = pAnswer;
     }
 
     private void SendReponse(int i)
