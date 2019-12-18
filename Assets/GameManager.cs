@@ -132,36 +132,29 @@ public class GameManager : MonoBehaviour
         socket.On("getScore",setupdicoScore);
         socket.On("setReponse", isGoodAnswer);
     }
-    public void isGoodAnswer(SocketIOEvent e)
-    {
-        Debug.Log(e.data);
-    }
 
-    public IEnumerator StartQuestion()
-    {
-        inQuestion = true;
-        yield return new WaitForSeconds(30);
-        inQuestion = false;
-    }
 
+    //-----------GETTERS-------------
     public SocketIOComponent GetSocket()
     {
         return GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
     }
 
+    public int GetPlayerId()
+    {
+        return playerId;
+    }
+    //-----------/GETTERS-------------
+
+
+
+
+
+
+    //-----------SETTERS-------------
     public void SetPlayerId(int i)
     {
         playerId = i;
-    }
-
-    public void InitialiseChairs()
-    {
-        //GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
-        for (int i = 0; i < 18; i++)
-        {
-            chairs.Add(GameObject.Find("Slot"+(i+1)));
-            Debug.Log(GameObject.Find("Slot" + (i + 1)));
-        }
     }
 
     public void SetPlayerAnswer(int i)
@@ -169,22 +162,49 @@ public class GameManager : MonoBehaviour
         playersAnswer[playerId] = i;
     }
 
+    public void SetHasAnswered()
+    {
+        Debug.Log("ID : " + playerId);
+        playersHasAnswered[playerId] = 1;
+        DisplayHasAnswered();
+    }
+    //-----------/SETTERS-------------
+
+
+
+
+
+
+
+    //-----------SERVER ON-------------
+    public void isGoodAnswer(SocketIOEvent e)
+    {
+        Debug.Log(e.data);
+    }
+
     public void aPlayerResponded(SocketIOEvent e)
     {
         int pId = int.Parse(e.data.GetField("id").ToString());
-        Debug.Log("UN PLAYER A REPONDU id : " + pId);
+        //Debug.Log("UN PLAYER A REPONDU id : " + pId);
         playersHasAnswered[pId] = 1;
         DisplayHasAnswered();
         //responses.Add(pId.ToString());
     }
 
-    public void SetHasAnswered()
+    private void getCurrentQuestion(SocketIOEvent e)
     {
-        Debug.Log("ID : "+playerId);
-        playersHasAnswered[playerId] = 1;
-        DisplayHasAnswered();
+        currentQuestion = int.Parse(e.data.GetField("question").ToString());
+        StartCoroutine("StartQuestion");
     }
+    //-----------/SERVER ON-------------
 
+
+
+
+
+
+
+    //-----------SERVER EMIT-------------
     private void SendReponse(int i)
     {
         JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
@@ -193,16 +213,16 @@ public class GameManager : MonoBehaviour
 
         socket.Emit("setReponse", j);
     }
+    //-----------/SERVER EMIT-------------
 
-    private void getCurrentQuestion(SocketIOEvent e)
-    {
-        currentQuestion = int.Parse(e.data.GetField("question").ToString());
-        StartCoroutine("StartQuestion");
-    }
 
-    /// <summary>
-    /// Permet à la fin d'une question d'afficher si les joueurs ont la bonne ou la mauvaise réponse
-    /// </summary>
+
+
+
+
+
+
+    //-----------DISPLAY-------------
     private void DisplayIsCorrectAnswer()
     {
         foreach (int i in playersAnswer.Keys)
@@ -218,9 +238,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Chnage la couleur du siège selon si le joueur a répondu ou non
-    /// </summary>
     private void DisplayHasAnswered()
     {
         foreach (int i in playersHasAnswered.Keys)
@@ -235,6 +252,33 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    //-----------/DISPLAY-------------
+
+
+
+
+
+
+
+
+
+    public IEnumerator StartQuestion()
+    {
+        inQuestion = true;
+        yield return new WaitForSeconds(30);
+        inQuestion = false;
+    }
+
+    public void InitialiseChairs()
+    {
+        //GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
+        for (int i = 0; i < 18; i++)
+        {
+            chairs.Add(GameObject.Find("Slot"+(i+1)));
+            Debug.Log(GameObject.Find("Slot" + (i + 1)));
+        }
+    }
+
 
     /// <summary>
     /// Permet de reset le tableau des réponse de façon à de nouveau dire qu'aucun joueur a répondu
@@ -272,17 +316,11 @@ public class GameManager : MonoBehaviour
         return rightAnswer == idAnswer;
     }
 
-    public int GetPlayerId()
-    {
-        return playerId;
-    }
-
     void SetUpClassement()
     {
         socket.Emit("getScore");
-        Debug.Log("dffffffffffffffffffffffffff");
         List<int> classementID = sortbyScore();
-        Debug.Log(classementID.Count);
+        //Debug.Log(classementID.Count);
         //classement des joueurs dans une list 
 
         /* foreach (int i in players.Keys)
