@@ -39,8 +39,9 @@ function join(socket){
 	
 	
 	socket.on('getCurrentQuestion', function(data ){
-		console.log("getCurrentQuestion");
+		console.log("getCurrentQuestion " + numberQuestion);
 		numberQuestion++;
+		console.log("getCurrentQuestion " + numberQuestion);
 		socket.emit("getCurrentQuestion",{question : numberQuestion} )
 	})
 	
@@ -50,9 +51,11 @@ function join(socket){
 		goodAnswer = 0;
 		currentScore = scorePlayer.get(idPlayer);
 		
-		console.log(questions[numberQuestion-1].goodAnswer);
+		console.log(questions);
+		console.log(numberQuestion);
+		console.log(questions[numberQuestion].goodAnswer);
 		console.log(answer);
-		if(questions[numberQuestion-1].goodAnswer == answer){
+		if(questions[numberQuestion].goodAnswer == answer){
 			goodAnswer = 1;
 			currentScore++;
 			scorePlayer.set(idPlayer, currentScore);
@@ -70,8 +73,8 @@ function join(socket){
 		})
 		console.log(scorePlayer);
 		socket.emit("getScore", {scoreJSON});
-		playerNumber = 0;
-		numberQuestion = -1;
+		//playerNumber = 0;
+		//numberQuestion = -1;
 		scorePlayer.clear();
 		namePlayerMap.clear();
 	})
