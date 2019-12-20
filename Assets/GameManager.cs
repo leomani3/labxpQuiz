@@ -79,9 +79,10 @@ public class GameManager : MonoBehaviour
         {
             if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
-                socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
-                socket.Emit("getCurrentQuestion");
                 Init(nbPlayer);
+                //socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+                Debug.Log("initialisation");
+                //socket.Emit("getCurrentQuestion");
                 //DisplayHasAnswered();
                 //TODO : faire ici la boucle de jeu
                 //QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
@@ -100,7 +101,9 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SendReponse(1);
+            
+            socket.Emit("getCurrentQuestion");
+            //SendReponse(1);
         }
     }
 
@@ -126,6 +129,7 @@ public class GameManager : MonoBehaviour
 
     public void SetupServerOn()
     {
+        socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
         socket.On("respondedd", aPlayerResponded);
         socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("getScore",setupdicoScore);
@@ -192,6 +196,7 @@ public class GameManager : MonoBehaviour
 
     private void getCurrentQuestion(SocketIOEvent e)
     {
+        Debug.Log("je rentre dans le on de getCurrentQuestion");
         currentQuestion = int.Parse(e.data.GetField("question").ToString());
         Debug.Log("current question : "+ e.data);
         DisplayQuestion();
@@ -297,6 +302,7 @@ public class GameManager : MonoBehaviour
 
     public void Init(int nbP)
     {
+        SetupServerOn();
         nbPlayer = nbP;
 
         nbQuestion = questions.Count;
@@ -307,7 +313,6 @@ public class GameManager : MonoBehaviour
             playersAnswer.Add(i, -1);
             playersHasAnswered.Add(i, -1);
         }
-        SetupServerOn();
         InitialiseChairs();
     }
 
