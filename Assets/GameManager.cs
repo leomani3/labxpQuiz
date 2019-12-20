@@ -80,15 +80,15 @@ public class GameManager : MonoBehaviour
             if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
                 socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
-                SetupServerOn();
-                InitialiseChairs();
+                socket.Emit("getCurrentQuestion");
                 Init(nbPlayer);
-                DisplayHasAnswered();
+                //DisplayHasAnswered();
                 //TODO : faire ici la boucle de jeu
-                QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
-                QuestionsUI.text = questions[currentQuestion].GetEnonce();
+                //QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
+                //QuestionsUI.text = questions[currentQuestion].GetEnonce();
 
-                DisplayQuestion();
+                //DisplayQuestion();
+                initialized = true;
             }
             //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
             //pendant que les joueurs répondent Lancer DisplayHasAnswered() à chaque update
@@ -121,7 +121,6 @@ public class GameManager : MonoBehaviour
             AnswerInstantiate.GetComponent<AnswerButton>().goodAnswer = RightAnswer(rightAnswer, i);
             AnswerInstantiate.GetComponentInChildren<Text>().text = Answers[i];
         }
-        initialized = true;
         SetUpClassement();
     }
 
@@ -194,6 +193,10 @@ public class GameManager : MonoBehaviour
     private void getCurrentQuestion(SocketIOEvent e)
     {
         currentQuestion = int.Parse(e.data.GetField("question").ToString());
+        Debug.Log("current question : "+ e.data);
+        DisplayQuestion();
+        QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
+        QuestionsUI.text = questions[currentQuestion].GetEnonce();
         StartCoroutine("StartQuestion");
     }
     //-----------/SERVER ON-------------
@@ -275,7 +278,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 18; i++)
         {
             chairs.Add(GameObject.Find("Slot"+(i+1)));
-            Debug.Log(GameObject.Find("Slot" + (i + 1)));
+            //Debug.Log(GameObject.Find("Slot" + (i + 1)));
         }
     }
 
@@ -304,6 +307,8 @@ public class GameManager : MonoBehaviour
             playersAnswer.Add(i, -1);
             playersHasAnswered.Add(i, -1);
         }
+        SetupServerOn();
+        InitialiseChairs();
     }
 
     public void AddPlayer(int id, string n)

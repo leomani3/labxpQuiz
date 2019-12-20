@@ -73,7 +73,7 @@ public class Menu : MonoBehaviour
         }
 
         GameManager.questions = questions;
-        Debug.Log("QUESTIONS RECUES");
+        //Debug.Log("QUESTIONS RECUES");
         gameManager.SetPlayerId(idPlayer);
         SceneManager.LoadScene("MainStage");
         gameManager.gameStarted = true;
