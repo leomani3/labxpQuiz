@@ -80,10 +80,10 @@ public class GameManager : MonoBehaviour
             if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
                 Init(nbPlayer);
-                //socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+                socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
                 Debug.Log("initialisation");
-                //socket.Emit("getCurrentQuestion");
-                //DisplayHasAnswered();
+                socket.Emit("getCurrentQuestion");
+                DisplayHasAnswered();
                 //TODO : faire ici la boucle de jeu
                 //QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
                 //QuestionsUI.text = questions[currentQuestion].GetEnonce();
@@ -129,15 +129,14 @@ public class GameManager : MonoBehaviour
             AnswerInstantiate.GetComponent<AnswerButton>().goodAnswer = RightAnswer(rightAnswer, i);
             AnswerInstantiate.GetComponentInChildren<Text>().text = Answers[i];
         }
-        SetUpClassement();
     }
 
     public void SetupServerOn()
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
         socket.On("respondedd", aPlayerResponded);
+        socket.On("getScore", setupdicoScore);
         socket.On("getCurrentQuestion", getCurrentQuestion);
-        socket.On("getScore",setupdicoScore);
         socket.On("setReponse", isGoodAnswer);
     }
 
@@ -335,7 +334,7 @@ public class GameManager : MonoBehaviour
     {
         socket.Emit("getScore");
         List<int> classementID = sortbyScore();
-        //Debug.Log(classementID.Count);
+        Debug.Log(classementID.Count);
         //classement des joueurs dans une list 
 
         /* foreach (int i in players.Keys)
@@ -362,12 +361,14 @@ public class GameManager : MonoBehaviour
 
             scores.Add(id, score);
         }
+        Debug.Log(scores.Keys.Count + " scores.Keys");
     }
 
     List<int> sortbyScore()
     {
         List<int> result = new List<int>();
         int scoremax = 0;
+        Debug.Log(scores.Keys.Count + " scores.Keys");
         foreach (int id in scores.Keys)
         {
             if (scoremax < scores[id])
