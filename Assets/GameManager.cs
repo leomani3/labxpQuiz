@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
 
                 //DisplayQuestion();
                 initialized = true;
+                StartCoroutine(SetUpClassement());
             }
             //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
             //pendant que les joueurs répondent Lancer DisplayHasAnswered() à chaque update
@@ -136,9 +137,9 @@ public class GameManager : MonoBehaviour
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
         socket.On("respondedd", aPlayerResponded);
-        socket.On("getScore", setupdicoScore);
         socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("setReponse", isGoodAnswer);
+        socket.On("getScore", setupdicoScore);
     }
 
 
@@ -335,25 +336,17 @@ public class GameManager : MonoBehaviour
         return rightAnswer == idAnswer;
     }
 
-    void SetUpClassement()
+    IEnumerator SetUpClassement()
     {
         socket.Emit("getScore");
+        yield return new WaitForSeconds(5);
         List<int> classementID = sortbyScore();
-        Debug.Log(classementID.Count);
-        //classement des joueurs dans une list 
-
-        /* foreach (int i in players.Keys)
+        //classement des joueurs dans une list
+        foreach (int i in players.Keys)
          {
              GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);  
              UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2);
-         }*/
-        for (int i = 0; i < classementID.Count; i++)
-        {
-            GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);
-            
-            Debug.Log(players[i].Substring(1, players[i].Length - 2));
-            UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2);
-        }
+         }
     }
 
     void setupdicoScore(SocketIOEvent e)
@@ -366,7 +359,6 @@ public class GameManager : MonoBehaviour
 
             scores.Add(id, score);
         }
-        Debug.Log(scores.Keys.Count + " scores.Keys");
     }
 
     List<int> sortbyScore()
