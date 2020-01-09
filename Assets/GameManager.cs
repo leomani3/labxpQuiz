@@ -229,7 +229,7 @@ public class GameManager : MonoBehaviour
         DisplayQuestion();
         QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
         QuestionsUI.text = questions[currentQuestion].GetEnonce();
-        StartCoroutine("StartQuestion");
+        StartCoroutine(StartQuestion());
     }
     //-----------/SERVER ON-------------
 
@@ -301,7 +301,8 @@ public class GameManager : MonoBehaviour
     public IEnumerator StartQuestion()
     {
         inQuestion = true;
-        yield return new WaitForSeconds(30);
+        yield return new WaitForSeconds(5);
+        socket.Emit("getCurrentQuestion");
         inQuestion = false;
     }
 
