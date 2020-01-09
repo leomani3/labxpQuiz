@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
                 initialized = true;
                 StartCoroutine(SetUpClassement());
             }
+
             //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
             //pendant que les joueurs répondent Lancer DisplayHasAnswered() à chaque update
             //à la fin du timer afficher les reponses de jouer = DisplayIsCorrectAnswer()
@@ -100,17 +101,33 @@ public class GameManager : MonoBehaviour
             //à la fin du timer inter-question (environ 5s) appeler ResetPlayersAnswer()
             //tester si c'est la fin du jeu
             //affichage des score = La fonction est pas encore faite. Ni l'écran d'affichage
+            
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             
             socket.Emit("getCurrentQuestion");
+            if (currentQuestion == nbQuestion)
+            {
+                /*foreach (GameObject g in ListButtonAnswers)
+                {
+                    Destroy(g);
+                }
+                ListButtonAnswers.Clear();*/
+                StartCoroutine(SetUpClassement());
+            }
             //SendReponse(1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
 
             SendReponse(currentAnswer);
+            foreach(GameObject g in ListButtonAnswers)
+            {
+                Destroy(g);
+            }
+            ListButtonAnswers.Clear();
+
         }
     }
 
