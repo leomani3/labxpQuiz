@@ -51,10 +51,10 @@ function join(socket){
 		goodAnswer = 0;
 		currentScore = scorePlayer.get(idPlayer);
 		
-		console.log(questions);
-		console.log(numberQuestion);
-		console.log(questions[numberQuestion].goodAnswer);
-		console.log(answer);
+		console.log("Question : " +questions);
+		console.log("Number question : " +numberQuestion);
+		console.log("good answer : " +questions[numberQuestion].goodAnswer);
+		console.log("answer : " +answer);
 		if(questions[numberQuestion].goodAnswer == answer){
 			goodAnswer = 1;
 			currentScore++;

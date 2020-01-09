@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private Dictionary<int, int> playersHasAnswered = new Dictionary<int, int>();
     private Dictionary<int, string> players = new Dictionary<int, string>();
     private Dictionary<int, int> scores = new Dictionary<int, int>();
+    private int currentAnswer;
     private int currentQuestion;
     private bool isCorrectAnswer = false;
     private int nbQuestion = 0;
@@ -108,7 +109,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
 
-            SendReponse(1);
+            SendReponse(currentAnswer);
         }
     }
 
@@ -166,7 +167,7 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerAnswer(int i)
     {
-        playersAnswer[playerId] = i;
+        currentAnswer = i;
     }
 
     public void SetHasAnswered()
@@ -186,7 +187,9 @@ public class GameManager : MonoBehaviour
     //-----------SERVER ON-------------
     public void isGoodAnswer(SocketIOEvent e)
     {
-        Debug.Log(e.data);
+        Debug.Log("blblbl " +e.data);
+        Debug.Log("blblbl " + int.Parse(e.data.GetField("answer").ToString()));
+        playersAnswer[playerId] = int.Parse(e.data.GetField("answer").ToString());
     }
 
     public void aPlayerResponded(SocketIOEvent e)
@@ -200,9 +203,10 @@ public class GameManager : MonoBehaviour
 
     private void getCurrentQuestion(SocketIOEvent e)
     {
-        Debug.Log("je rentre dans le on de getCurrentQuestion");
+        //Debug.Log("je rentre dans le on de getCurrentQuestion");
         currentQuestion = int.Parse(e.data.GetField("question").ToString());
         Debug.Log("current question : "+ e.data);
+        Debug.Log(questions.Count);
         DisplayQuestion();
         QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
         QuestionsUI.text = questions[currentQuestion].GetEnonce();
@@ -221,6 +225,7 @@ public class GameManager : MonoBehaviour
     {
         JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
         j.AddField("id", playerId);
+        Debug.Log("Id de la reponse envoyée : " +i);
         j.AddField("answer", i);
 
         socket.Emit("setReponse", j);
