@@ -104,30 +104,11 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            
             socket.Emit("getCurrentQuestion");
-            if (currentQuestion == nbQuestion)
-            {
-                /*foreach (GameObject g in ListButtonAnswers)
-                {
-                    Destroy(g);
-                }
-                ListButtonAnswers.Clear();*/
-                Debug.Log("plus de quetsion");
-                StartCoroutine(SetUpClassement());
-            }
-            //SendReponse(1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-
             SendReponse(currentAnswer);
-            foreach(GameObject g in ListButtonAnswers)
-            {
-                Destroy(g);
-            }
-            ListButtonAnswers.Clear();
-
         }
     }
 
@@ -222,14 +203,24 @@ public class GameManager : MonoBehaviour
 
     private void getCurrentQuestion(SocketIOEvent e)
     {
+        ClearButton();
         //Debug.Log("je rentre dans le on de getCurrentQuestion");
         currentQuestion = int.Parse(e.data.GetField("question").ToString());
         Debug.Log("current question : "+ e.data);
-        Debug.Log(questions.Count);
         DisplayQuestion();
         QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
         QuestionsUI.text = questions[currentQuestion].GetEnonce();
-        StartCoroutine(StartQuestion());
+        
+        //affiche le classement
+        if (currentQuestion == nbQuestion - 1)
+        {
+            Debug.Log("plus de question");
+            StartCoroutine(SetUpClassement());
+        }
+        else
+        {
+            StartCoroutine(StartQuestion());
+        }
     }
     //-----------/SERVER ON-------------
 
@@ -240,14 +231,14 @@ public class GameManager : MonoBehaviour
 
 
     //-----------SERVER EMIT-------------
-    private void SendReponse(int i)
+    public void SendReponse(int i)
     {
         JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
         j.AddField("id", playerId);
         Debug.Log("Id de la reponse envoyée : " +i);
         j.AddField("answer", i);
-
         socket.Emit("setReponse", j);
+        ClearButton();
     }
     //-----------/SERVER EMIT-------------
 
@@ -363,8 +354,9 @@ public class GameManager : MonoBehaviour
         //classement des joueurs dans une list
         foreach (int i in players.Keys)
          {
-             GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);  
-             UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2) + " : " + scores[i].ToString();
+            GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);
+            Debug.Log(scores[0].ToString());
+            UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2) + " : " + scores[i].ToString();
          }
     }
 
@@ -377,6 +369,7 @@ public class GameManager : MonoBehaviour
             int score = int.Parse(jsonListScore[i].GetField("score").ToString());
             scores.Add(id, score);
         }
+        Debug.Log(scores.Keys.Count + "dfihggggggggggggggggggggggggggggggggg");
     }
 
     List<int> sortbyScore()
@@ -396,5 +389,14 @@ public class GameManager : MonoBehaviour
             }
         }
         return result;
+    }
+
+    void ClearButton()
+    {
+        foreach (GameObject g in ListButtonAnswers)
+        {
+            Destroy(g);
+        }
+        ListButtonAnswers.Clear();
     }
 }

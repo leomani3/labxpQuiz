@@ -17,5 +17,6 @@ public class AnswerButton : MonoBehaviour
         GameObject.Find("GameManager").GetComponent<GameManager>().SetHasAnswered();
         GameObject.Find("GameManager").GetComponent<GameManager>().GetSocket().Emit("responded", j);
         GameObject.Find("GameManager").GetComponent<GameManager>().SetPlayerAnswer(index);
+        GameObject.Find("GameManager").GetComponent<GameManager>().SendReponse(index);
     }
 }

@@ -75,10 +75,11 @@ function join(socket){
 		scorePlayer.forEach(function(value,key, map){
 			scoreJSON.push({id : key, score : value});
 		})
-		console.log(scorePlayer);
+		console.log(scorePlayer.size + "le scoooooooooooooooooooooooooooooooooooooooree");
 		socket.emit("getScore", {scoreJSON});
 		//playerNumber = 0;
 		//numberQuestion = -1;
+
 		scorePlayer.clear();
 		namePlayerMap.clear();
 	})
