@@ -9,7 +9,7 @@ module.exports = {
 
 
 function join(socket){
-
+	
 	socket.on('join', function(data ){
 		
 		playerNumber++;
@@ -39,16 +39,16 @@ function join(socket){
 	
 	
 	socket.on('getCurrentQuestion', function(data ){
-		console.log("getCurrentQuestion " + numberQuestion);
-		numberQuestion++;
-		console.log("getCurrentQuestion " + numberQuestion);
+		
 		socket.emit("getCurrentQuestion",{question : numberQuestion} )
 	})
+	
 	
 	socket.on('setReponse', function(data ){
 		idPlayer = data.id;
 		answer = data.answer;
 		goodAnswer = 0;
+		
 		currentScore = scorePlayer.get(idPlayer);
 		
 		console.log("Question : " +questions);
@@ -62,6 +62,10 @@ function join(socket){
 		}
 		socket.broadcast.emit("setReponse",{id : idPlayer, answer : goodAnswer} );
 		socket.emit("setReponse",{id : idPlayer, answer : goodAnswer} );
+		nbPlayerAnswer++;
+		if(nbPlayerAnswer == playerNumber){
+			numberQuestion++;
+		}
 	})
 
 

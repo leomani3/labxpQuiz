@@ -35,7 +35,8 @@ tools.Main(io);
 
 
 global.playerNumber = 0;
-global.numberQuestion = -1;
+global.numberQuestion = 0;
+global.nbPlayerAnswer = 0;
 
 global.scorePlayer = new Map();
 global.namePlayerMap = new Map();

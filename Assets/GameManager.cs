@@ -140,6 +140,7 @@ public class GameManager : MonoBehaviour
         socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("setReponse", isGoodAnswer);
         socket.On("getScore", setupdicoScore);
+        //socket.On("")
     }
 
 
@@ -345,7 +346,7 @@ public class GameManager : MonoBehaviour
         foreach (int i in players.Keys)
          {
              GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);  
-             UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2);
+             UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2) + " : " + scores[i].ToString();
          }
     }
 
@@ -356,7 +357,6 @@ public class GameManager : MonoBehaviour
         {
             int id = int.Parse(jsonListScore[i].GetField("id").ToString());
             int score = int.Parse(jsonListScore[i].GetField("score").ToString());
-
             scores.Add(id, score);
         }
     }
