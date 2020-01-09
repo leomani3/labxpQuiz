@@ -12,4 +12,3 @@ Léo est il le plus beau ?
 Oui
 Non
 0
-
