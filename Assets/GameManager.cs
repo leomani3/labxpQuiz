@@ -91,7 +91,6 @@ public class GameManager : MonoBehaviour
 
                 //DisplayQuestion();
                 initialized = true;
-                StartCoroutine(SetUpClassement());
             }
 
             //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
@@ -114,6 +113,7 @@ public class GameManager : MonoBehaviour
                     Destroy(g);
                 }
                 ListButtonAnswers.Clear();*/
+                Debug.Log("plus de quetsion");
                 StartCoroutine(SetUpClassement());
             }
             //SendReponse(1);
