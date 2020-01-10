@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
+    public Object font;
     private SocketIOComponent socket;
 
     private int nbPlayer;
@@ -103,7 +104,7 @@ public class Menu : MonoBehaviour
         //PlaceTextElement(nbPlayer, idPlayer,"");
 
         GameObject inputNamePlayer = GameObject.Find("InputNamePlayer");
-        GameObject joinButton = GameObject.Find("join_button");
+        GameObject joinButton = GameObject.Find("Join");
 
         inputNamePlayer.SetActive(false);
         joinButton.SetActive(false);
@@ -139,7 +140,7 @@ public class Menu : MonoBehaviour
 
         GameObject canvas = GameObject.Find("Text_player");
         namePlayer = "Player " + (idPlayer+1) + " : " + namePlayer;
-        CreateText(canvas.transform, 0, 0, namePlayer, 14, Color.black, idPlayer);
+        CreateText(canvas.transform, 0, 0, namePlayer, 30, Color.white, idPlayer);
     }
 
     private void PlaceTextOtherPlayers()
@@ -159,13 +160,13 @@ public class Menu : MonoBehaviour
        
         RectTransform trans = UItextGO.AddComponent<RectTransform>();
         trans.anchoredPosition = new Vector2(x, y);
-        trans.sizeDelta = new Vector2(200, 20);
+        trans.sizeDelta = new Vector2(500, 50);
 
         Text text = UItextGO.AddComponent<Text>();
         text.text = text_to_print;
         text.fontSize = font_size;
         text.color = text_color;
-        text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+        text.font = font as Font;
 
         text.transform.position = UItextGO.transform.position + new Vector3(0, -idPlayer * 50, 0);
 
