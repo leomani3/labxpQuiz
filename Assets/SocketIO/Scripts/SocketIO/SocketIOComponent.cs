@@ -122,6 +122,7 @@ namespace SocketIO
 		public void Start()
 		{
 			if (autoConnect) { Connect(); }
+            DontDestroyOnLoad(gameObject);
 		}
 
 		public void Update()

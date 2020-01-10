@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
             if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
                 Init(nbPlayer);
-                socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+                //socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
                 Debug.Log("initialisation : " +questions.Count);
                 socket.Emit("getCurrentQuestion");
                 DisplayHasAnswered();
