@@ -2,7 +2,6 @@ module.exports = {
 
 	Main : function(io){
 		io.on('connection', function(socket){
-			console.log("dfsdfdsf");
 			join(socket);
 		});
 	},
