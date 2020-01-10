@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 6214997764138534818}
   - component: {fileID: 2467319385559858413}
   - component: {fileID: 8498335654134763595}
-  - component: {fileID: 6951948381320367136}
+  - component: {fileID: 6059388929557004734}
   - component: {fileID: 1810699499472502724}
   m_Layer: 5
   m_Name: startGame
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6951948381320367136
+--- !u!114 &6059388929557004734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -421,10 +421,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4117445003903425297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9972168a29a8f246aaa8c524e53aefd, type: 3}
+  m_Script: {fileID: 11500000, guid: 638597d4f35c7c2409e4aa02ec9b1e53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  font: {fileID: 0}
 --- !u!114 &1810699499472502724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,7 +467,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6951948381320367136}
+      - m_Target: {fileID: 6059388929557004734}
         m_MethodName: GoToMainMenu
         m_Mode: 1
         m_Arguments:

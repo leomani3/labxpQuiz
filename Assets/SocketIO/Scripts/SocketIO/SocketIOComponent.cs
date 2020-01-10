@@ -38,11 +38,11 @@ using WebSocketSharp.Net;
 
 namespace SocketIO
 {
-	public class SocketIOComponent : MonoBehaviour
+    public class SocketIOComponent : MonoBehaviour
 	{
-		#region Public Properties
-
-		public string url = "ws://127.0.0.1:4567/socket.io/?EIO=4&transport=websocket";
+        private static SocketIOComponent instance;
+        #region Public Properties
+        public string url = "ws://127.0.0.1:4567/socket.io/?EIO=4&transport=websocket";
 		public bool autoConnect = true;
 		public int reconnectDelay = 5;
 		public float ackExpirationTime = 1800f;
@@ -91,7 +91,16 @@ namespace SocketIO
 
 		public void Awake()
 		{
-			encoder = new Encoder();
+            if (instance != null && instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                instance = this;
+            }
+
+            encoder = new Encoder();
 			decoder = new Decoder();
 			parser = new Parser();
 			handlers = new Dictionary<string, List<Action<SocketIOEvent>>>();

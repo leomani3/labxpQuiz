@@ -20,14 +20,18 @@ public class Menu : MonoBehaviour
     private GameObject startButton;
     private GameManager gameManager;
 
+    private bool once = false;
+
     void Start()
     {
+        once = false;
         questions = new List<Question>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         startButton = GameObject.Find("startGame");
         startButton.SetActive(false);
         GameObject go = GameObject.Find("SocketIO");
         socket = go.GetComponent<SocketIOComponent>();
+        StartCoroutine(resetServerVariables());
 
         nbPlayer = 0;
 
@@ -37,6 +41,12 @@ public class Menu : MonoBehaviour
         socket.On("respondedd", blbl);
 
         listPlayer = new List<Player>();
+    }
+
+    IEnumerator resetServerVariables()
+    {
+        yield return new WaitForSeconds(0.5f);
+        socket.Emit("resetVariables");
     }
 
     private void Update()
@@ -122,12 +132,6 @@ public class Menu : MonoBehaviour
             startButton.SetActive(true);
         }
         socket.On("joinAll", JoinAll);
-    }
-
-    public void GoToMainMenu()
-    {
-        socket.Emit("resetVariables");
-        SceneManager.LoadScene(0);
     }
 
     void StartGame()

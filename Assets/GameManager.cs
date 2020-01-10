@@ -39,25 +39,27 @@ public class GameManager : MonoBehaviour
     private bool inQuestion = false;
 
     //--SERVEUR
-    private SocketIOComponent socket;
+    public SocketIOComponent socket;
     private bool initialized = false;
 
-    public static GameManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = GameObject.FindObjectOfType<GameManager>();
-            }
+    public static GameManager Instance;
 
-            return instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
         }
     }
 
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+        players.Clear();
         chairs = new List<GameObject>();
 
         ResetPlayersAnswer();
@@ -289,6 +291,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("plus de question");
             StartCoroutine(SetUpClassement());
+            socket.Emit("resetVariables");
         }
         else
         {
@@ -357,14 +360,12 @@ public class GameManager : MonoBehaviour
     {
         socket.Emit("getScore");      
         yield return new WaitForSeconds(2);
-        Debug.Log("apres les 2 s");
         List<int> classementID = sortbyScore();
         Instantiate(UiClassement, GameObject.Find("Canvas").transform);
         //classement des joueurs dans une list
         foreach (int i in players.Keys)
          {
             GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);
-            Debug.Log("juste avan l'erreur de se mère : " + i);
             Debug.Log(scores[i].ToString());
             UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2) + " : " + scores[i].ToString();
          }
