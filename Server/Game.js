@@ -8,6 +8,7 @@ module.exports = {
 };
 
 
+
 function join(socket){
 	
 	socket.on('join', function(data ){
@@ -26,6 +27,15 @@ function join(socket){
 		var namePlayerJson = setMapToJson(namePlayerMap);
 		socket.emit("join",{id : idPlayer, nbPlayer : playerNumber,namePlayerJson} );
 	});
+	
+	socket.on('resetVariables', function(data){
+		playerNumber = 0;
+		nbPlayerAnswer = 0;
+
+		scorePlayer = new Map();
+		namePlayerMap = new Map();
+		nbJoueurGetScore=0;
+	})
 
 	socket.on('responded', function(data){
 		console.log(data);

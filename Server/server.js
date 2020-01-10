@@ -34,7 +34,6 @@ console.log(process.env.PORT);
 var tools = require('./Game');
 tools.Main(io);
 
-
 global.playerNumber = 0;
 global.numberQuestion = 0;
 global.nbPlayerAnswer = 0;

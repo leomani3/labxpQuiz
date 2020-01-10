@@ -120,6 +120,12 @@ public class Menu : MonoBehaviour
         socket.On("joinAll", JoinAll);
     }
 
+    public void GoToMainMenu()
+    {
+        socket.Emit("resetAllVariables");
+        SceneManager.LoadScene(0);
+    }
+
     void StartGame()
     {
         socket.Emit("getQuestions");

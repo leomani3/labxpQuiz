@@ -298,7 +298,6 @@ public class GameManager : MonoBehaviour
         {
             socket.Emit("getCurrentQuestion");
             ResetPlayersAnswer();
-            inQuestion = false;
         }
 
     }
