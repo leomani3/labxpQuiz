@@ -67,6 +67,7 @@ lineReader.on("line", function (line) {
 	question = {"title" : questionTitle,"goodAnswer" : indexResponse ,answer };
 	
 	questions.push(question);
+	console.log(question[0]);
 	i++;
 });
 
