@@ -10,7 +10,7 @@ var session = require("express-session")({
 var sharedsession = require("express-socket.io-session");
 
 var lineReader = require('readline').createInterface({
-  input: require('fs').createReadStream('Questions.txt')
+  input: require('fs').createReadStream('Server/Questions.txt')
 });
 
 app.use(session);
