@@ -31,7 +31,7 @@ console.log(process.env.PORT);
 
 
 // include our files
-var tools = require('./Game');
+var tools = require('./Server/Game');
 tools.Main(io);
 
 
