@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             {
                 Init(nbPlayer);
                 socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
-                Debug.Log("initialisation");
+                Debug.Log("initialisation : " +questions.Count);
                 socket.Emit("getCurrentQuestion");
                 DisplayHasAnswered();
                 //TODO : faire ici la boucle de jeu
