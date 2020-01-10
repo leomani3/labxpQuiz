@@ -47,6 +47,10 @@ public class Menu : MonoBehaviour
             j.AddField("id", 111);
             socket.Emit("responded", j);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            socket.Emit("resetVariables");
+        }
     }
 
     private void blbl(SocketIOEvent e)
@@ -122,7 +126,7 @@ public class Menu : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        socket.Emit("resetAllVariables");
+        socket.Emit("resetVariables");
         SceneManager.LoadScene(0);
     }
 

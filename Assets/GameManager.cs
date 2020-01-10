@@ -106,10 +106,6 @@ public class GameManager : MonoBehaviour
         {
             socket.Emit("getCurrentQuestion");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            SendReponse(currentAnswer);
-        }
     }
 
     public void DisplayQuestion()

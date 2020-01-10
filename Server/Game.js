@@ -31,6 +31,7 @@ function join(socket){
 	socket.on('resetVariables', function(data){
 		playerNumber = 0;
 		nbPlayerAnswer = 0;
+		numberQuestion = 0;
 
 		scorePlayer = new Map();
 		namePlayerMap = new Map();
