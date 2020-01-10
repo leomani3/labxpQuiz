@@ -56,6 +56,7 @@ public class Menu : MonoBehaviour
 
     private void getQuestions(SocketIOEvent e)
     {
+        Debug.Log("je recois les questions");
         int nbQuestion = e.data.GetField("questions").Count;
         for (int i = 0; i < nbQuestion; i++)
         {
@@ -119,7 +120,7 @@ public class Menu : MonoBehaviour
         socket.On("joinAll", JoinAll);
     }
 
-    public void StartGame()
+    void StartGame()
     {
         socket.Emit("getQuestions");
         //passer toutes les variables necessaires au GameManager

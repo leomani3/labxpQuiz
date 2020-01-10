@@ -49,7 +49,6 @@ i =0;
 global.questions = [];
 
 lineReader.on("line", function (line) {	
-	console.log("blblblbl");
 	question = {};
 
 	answer = {};
@@ -67,7 +66,6 @@ lineReader.on("line", function (line) {
 	question = {"title" : questionTitle,"goodAnswer" : indexResponse ,answer };
 	
 	questions.push(question);
-	console.log(questions[0]);
 	i++;
 });
 
