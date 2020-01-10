@@ -187,7 +187,9 @@ public class GameManager : MonoBehaviour
     //-----------SERVER ON-------------
     public void isGoodAnswer(SocketIOEvent e)
     {
-        playersAnswer[playerId] = int.Parse(e.data.GetField("answer").ToString());
+        int id = int.Parse(e.data.GetField("id").ToString());
+        Debug.Log("le joueur "+id+" a répondu !");
+        playersAnswer[id] = int.Parse(e.data.GetField("answer").ToString());
     }
 
     public void aPlayerResponded(SocketIOEvent e)
