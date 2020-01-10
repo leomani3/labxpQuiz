@@ -291,10 +291,15 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StartQuestion()
     {
-        inQuestion = true;
+        yield return new WaitForSeconds(5);
+        DisplayIsCorrectAnswer();
+        StartCoroutine(StartInterQuestion());
+    }
+
+    public IEnumerator StartInterQuestion()
+    {
         yield return new WaitForSeconds(5);
         socket.Emit("getCurrentQuestion");
-        inQuestion = false;
     }
 
     public void InitialiseChairs()
