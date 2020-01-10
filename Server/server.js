@@ -49,7 +49,7 @@ i =0;
 global.questions = [];
 
 lineReader.on("line", function (line) {	
-	
+	console.log("blblblbl");
 	question = {};
 
 	answer = {};
