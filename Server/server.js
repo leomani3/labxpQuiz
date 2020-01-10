@@ -26,7 +26,15 @@ io.use(sharedsession(session, {
     autoSave:true
 }));
 
-io.attach(process.env.PORT || 8080);
+io.attach(8080);
+
+var http = require('http');
+var server = http.Server(express);
+
+server.listen(process.env.PORT, function(){
+	console.log("leo le plus beau");
+});
+	
 
 
 // include our files
