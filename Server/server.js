@@ -27,6 +27,7 @@ io.use(sharedsession(session, {
 }));
 
 io.attach(process.env.PORT);
+console.log(process.env.PORT);
 
 
 // include our files
