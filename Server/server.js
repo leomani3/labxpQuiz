@@ -40,6 +40,7 @@ global.nbPlayerAnswer = 0;
 
 global.scorePlayer = new Map();
 global.namePlayerMap = new Map();
+global.nbJoueurGetScore=0;
 
 console.log("sa tourne au calme");
 

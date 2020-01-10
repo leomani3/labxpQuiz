@@ -20,6 +20,7 @@ function join(socket){
 		// session
 		socket.broadcast.emit("joinAll",{id : idPlayer,name : namePlayer});
 		scorePlayer.set(idPlayer, 0);
+		console.log("dans le join current score : " +scorePlayer.get(idPlayer));
 		namePlayerMap.set(idPlayer, namePlayer);
 		console.log("player join : " + idPlayer + "  " +namePlayer);
 		var namePlayerJson = setMapToJson(namePlayerMap);
@@ -46,10 +47,12 @@ function join(socket){
 	
 	socket.on('setReponse', function(data ){
 		idPlayer = data.id;
+		console.log("id du fdp de joueur : "+idPlayer);
 		answer = data.answer;
 		goodAnswer = 0;
 		
 		currentScore = scorePlayer.get(idPlayer);
+		console.log("current score : "+scorePlayer.get(idPlayer));
 		
 		console.log("Question : " +questions);
 		console.log("Number question : " +numberQuestion);
@@ -79,9 +82,12 @@ function join(socket){
 		socket.emit("getScore", {scoreJSON});
 		//playerNumber = 0;
 		//numberQuestion = -1;
+		nbJoueurGetScore++;
+		if(nbJoueurGetScore == playerNumber){
+			scorePlayer.clear();
+			namePlayerMap.clear();
+		}
 
-		scorePlayer.clear();
-		namePlayerMap.clear();
 	})
 	
 }

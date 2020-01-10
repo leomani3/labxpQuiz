@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     //--UI
     public GameObject playerUi;
-
+    public GameObject UiClassement;
     QuestionParser qp;
     public static List<Question> questions;
     public List<GameObject> chairs;
@@ -187,8 +187,6 @@ public class GameManager : MonoBehaviour
     //-----------SERVER ON-------------
     public void isGoodAnswer(SocketIOEvent e)
     {
-        Debug.Log("blblbl " +e.data);
-        Debug.Log("blblbl " + int.Parse(e.data.GetField("answer").ToString()));
         playersAnswer[playerId] = int.Parse(e.data.GetField("answer").ToString());
     }
 
@@ -211,16 +209,7 @@ public class GameManager : MonoBehaviour
         QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
         QuestionsUI.text = questions[currentQuestion].GetEnonce();
         
-        //affiche le classement
-        if (currentQuestion == nbQuestion - 1)
-        {
-            Debug.Log("plus de question");
-            StartCoroutine(SetUpClassement());
-        }
-        else
-        {
-            StartCoroutine(StartQuestion());
-        }
+          StartCoroutine(StartQuestion());
     }
     //-----------/SERVER ON-------------
 
@@ -235,7 +224,6 @@ public class GameManager : MonoBehaviour
     {
         JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
         j.AddField("id", playerId);
-        Debug.Log("Id de la reponse envoyée : " +i);
         j.AddField("answer", i);
         socket.Emit("setReponse", j);
         ClearButton();
@@ -293,8 +281,17 @@ public class GameManager : MonoBehaviour
     {
         inQuestion = true;
         yield return new WaitForSeconds(5);
-        socket.Emit("getCurrentQuestion");
-        inQuestion = false;
+        //affiche le classement
+        if (currentQuestion == nbQuestion - 1)
+        {
+            Debug.Log("plus de question");
+            StartCoroutine(SetUpClassement());
+        }
+        else
+        {
+            socket.Emit("getCurrentQuestion");
+            inQuestion = false;
+        }
     }
 
     public void InitialiseChairs()
@@ -302,7 +299,7 @@ public class GameManager : MonoBehaviour
         //GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
         for (int i = 0; i < 18; i++)
         {
-            chairs.Add(GameObject.Find("Slot"+(i+1)));
+            chairs.Add(GameObject.Find("Slot"+(i)));
             //Debug.Log(GameObject.Find("Slot" + (i + 1)));
         }
     }
@@ -348,14 +345,17 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SetUpClassement()
     {
-        socket.Emit("getScore");
-        yield return new WaitForSeconds(5);
+        socket.Emit("getScore");      
+        yield return new WaitForSeconds(2);
+        Debug.Log("apres les 2 s");
         List<int> classementID = sortbyScore();
+        Instantiate(UiClassement, GameObject.Find("Canvas").transform);
         //classement des joueurs dans une list
         foreach (int i in players.Keys)
          {
             GameObject UI = Instantiate(playerUi, transform.position, Quaternion.identity, GameObject.Find("Names").transform);
-            Debug.Log(scores[0].ToString());
+            Debug.Log("juste avan l'erreur de se mère : " + i);
+            Debug.Log(scores[i].ToString());
             UI.GetComponent<Text>().text = players[i].Substring(1, players[i].Length - 2) + " : " + scores[i].ToString();
          }
     }
@@ -369,7 +369,7 @@ public class GameManager : MonoBehaviour
             int score = int.Parse(jsonListScore[i].GetField("score").ToString());
             scores.Add(id, score);
         }
-        Debug.Log(scores.Keys.Count + "dfihggggggggggggggggggggggggggggggggg");
+        Debug.Log(scores.Keys.Count + " dfihggggggggggggggggggggggggggggggggg");
     }
 
     List<int> sortbyScore()
@@ -387,6 +387,7 @@ public class GameManager : MonoBehaviour
             {
                 result.Add(id);
             }
+            Debug.Log(id);
         }
         return result;
     }
