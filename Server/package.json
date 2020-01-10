@@ -1,9 +1,0 @@
-{
-  "name": "warm-mesa-57032",
-  "description": "a really cool app",
-  "version": "1.0.0",
-  "engines": {
-    "node": "12.13.1",
-	"npm": "6.12.1"
-  }
-}
