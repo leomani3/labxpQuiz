@@ -280,7 +280,13 @@ public class GameManager : MonoBehaviour
     public IEnumerator StartQuestion()
     {
         yield return new WaitForSeconds(5);
-        //affiche le classement
+        StartCoroutine(StartInterQuestion());
+    }
+
+    public IEnumerator StartInterQuestion()
+    {
+        DisplayIsCorrectAnswer();
+        yield return new WaitForSeconds(5);
         if (currentQuestion == nbQuestion - 1)
         {
             Debug.Log("plus de question");
@@ -289,16 +295,10 @@ public class GameManager : MonoBehaviour
         else
         {
             socket.Emit("getCurrentQuestion");
+            ResetPlayersAnswer();
             inQuestion = false;
         }
-        DisplayIsCorrectAnswer();
-        StartCoroutine(StartInterQuestion());
-    }
 
-    public IEnumerator StartInterQuestion()
-    {
-        yield return new WaitForSeconds(5);
-        socket.Emit("getCurrentQuestion");
     }
 
     public void InitialiseChairs()
@@ -306,7 +306,8 @@ public class GameManager : MonoBehaviour
         //GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
         for (int i = 0; i < 18; i++)
         {
-            chairs.Add(GameObject.Find("Slot"+(i)));
+            chairs.Add(GameObject.Find("Slot"+(i +1)));
+            Debug.Log(GameObject.Find("Slot" + (i + 1)));
             //Debug.Log(GameObject.Find("Slot" + (i + 1)));
         }
     }
@@ -317,10 +318,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ResetPlayersAnswer()
     {
-        foreach (int i in playersAnswer.Keys)
+        /*foreach (int i in playersHasAnswered.Keys)
         {
-            playersAnswer[i] = -1;
+            Debug.Log(i);
             playersHasAnswered[i] = -1;
+        }*/
+
+        foreach (int i in playersHasAnswered.Keys)
+        {
+            chairs[i].GetComponent<MeshRenderer>().material = materials[0];
         }
     }
 

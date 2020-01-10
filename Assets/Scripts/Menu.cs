@@ -99,6 +99,7 @@ public class Menu : MonoBehaviour
         string idPlayerSt = e.data.GetField("id").Print();
         nbPlayer = int.Parse(nbPlayerSt);
         idPlayer = int.Parse(idPlayerSt);
+        Debug.Log("idPlayer dans menu : "+idPlayer);
         //PlaceTextElement(nbPlayer, idPlayer,"");
 
         GameObject inputNamePlayer = GameObject.Find("InputNamePlayer");

@@ -12,8 +12,8 @@ function join(socket){
 	
 	socket.on('join', function(data ){
 		
-		playerNumber++;
 		idPlayer = playerNumber;
+		playerNumber++;
 		namePlayer = data.name;
 		
 		console.log(playerNumber);
