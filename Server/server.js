@@ -26,7 +26,7 @@ io.use(sharedsession(session, {
     autoSave:true
 }));
 
-io.attach(8080);
+io.attach(process.env.PORT);
 
 
 // include our files
