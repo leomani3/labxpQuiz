@@ -279,7 +279,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StartQuestion()
     {
-        inQuestion = true;
         yield return new WaitForSeconds(5);
         //affiche le classement
         if (currentQuestion == nbQuestion - 1)
@@ -292,6 +291,14 @@ public class GameManager : MonoBehaviour
             socket.Emit("getCurrentQuestion");
             inQuestion = false;
         }
+        DisplayIsCorrectAnswer();
+        StartCoroutine(StartInterQuestion());
+    }
+
+    public IEnumerator StartInterQuestion()
+    {
+        yield return new WaitForSeconds(5);
+        socket.Emit("getCurrentQuestion");
     }
 
     public void InitialiseChairs()
