@@ -10,7 +10,7 @@ module.exports = {
 
 
 function join(socket){
-	
+
 	socket.on('join', function(data ){
 		
 		idPlayer = playerNumber;

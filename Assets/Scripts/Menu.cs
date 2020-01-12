@@ -31,7 +31,7 @@ public class Menu : MonoBehaviour
         startButton.SetActive(false);
         GameObject go = GameObject.Find("SocketIO");
         socket = go.GetComponent<SocketIOComponent>();
-        StartCoroutine(resetServerVariables());
+        //StartCoroutine(resetServerVariables());
 
         nbPlayer = 0;
 

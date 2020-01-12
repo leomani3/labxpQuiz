@@ -7,6 +7,7 @@ public class ReplayButton : MonoBehaviour
 {
     public void GoToMainMenu()
     {
+        GameObject.Find("GameManager").GetComponent<GameManager>().socket.Emit("resetVariables");
         SceneManager.LoadScene(0);
     }
 }

@@ -281,7 +281,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StartQuestion()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(20);
         StartCoroutine(StartInterQuestion());
     }
 
