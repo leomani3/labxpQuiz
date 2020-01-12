@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     QuestionParser qp;
     public static List<Question> questions;
     public List<GameObject> chairs;
+    public List<GameObject> persos;
     public Material[] materials;
     public GameObject AnswerPrefabs;
     public bool gameStarted = false;
@@ -23,7 +25,7 @@ public class GameManager : MonoBehaviour
     private string playerName;
 
     //--PARTIE
-    private int nbPlayer = 10;
+    public int nbPlayer = 10;
     private Dictionary<int, int> playersAnswer = new Dictionary<int, int>();
     [SerializeField]
     private Dictionary<int, int> playersHasAnswered = new Dictionary<int, int>();
@@ -303,12 +305,41 @@ public class GameManager : MonoBehaviour
 
     public void InitialiseChairs()
     {
-        //GameObject[] tmp = GameObject.FindGameObjectsWithTag("Chair");
         for (int i = 0; i < 18; i++)
         {
             chairs.Add(GameObject.Find("Slot"+(i +1)));
             Debug.Log(GameObject.Find("Slot" + (i + 1)));
-            //Debug.Log(GameObject.Find("Slot" + (i + 1)));
+        }
+    }
+
+    public void InitialisePerso()
+    {
+        Debug.Log("nb persos : " + nbPlayer);
+        for (int i = 0; i < 18; i++)
+        {
+            if (i < nbPlayer)
+            {
+                GameObject.Find("perso" + (i + 1)).active = true;
+            }
+            else
+            {
+                GameObject.Find("perso" + (i + 1)).active = false;
+            }
+        }
+
+        //initialisation des player names
+        GameObject playerNames = GameObject.Find("PlayerNames");
+        for (int i = 0; i < playerNames.transform.childCount; i++)
+        {
+            if (i < nbPlayer)
+            {
+                playerNames.transform.GetChild(i).gameObject.active = true;
+                playerNames.transform.GetChild(i).GetComponent<TextMeshProUGUI>().text = players[i].Substring(1, players[i].Length-2);
+            }
+            else
+            {
+                playerNames.transform.GetChild(i).gameObject.active = false;
+            }
         }
     }
 
@@ -344,6 +375,7 @@ public class GameManager : MonoBehaviour
             playersHasAnswered.Add(i, -1);
         }
         InitialiseChairs();
+        InitialisePerso();
     }
 
     public void AddPlayer(int id, string n)
