@@ -78,6 +78,7 @@ function join(socket){
 		console.log(nbPlayerAnswer+"    "+playerNumber);
 		if(nbPlayerAnswer == playerNumber){
 			numberQuestion++;
+			nbPlayerAnswer = 0;
 		}
 	})
 
