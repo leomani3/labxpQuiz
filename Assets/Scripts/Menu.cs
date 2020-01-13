@@ -7,10 +7,13 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
-    public Object font;
+    //PUBLIC VARIABLES
+    public Object font; //police d'écritude dans le Menu
+
+    //PRIVATE VARIABLES
     private SocketIOComponent socket;
 
-    private int nbPlayer;
+    private int nbPlayer; //le nombre de joueur qui rejoignent la partie
 
     private string namePlayer;
     private int idPlayer;
@@ -36,8 +39,11 @@ public class Menu : MonoBehaviour
         nbPlayer = 0;
 
         socket.On("join", Join);
-       
+
+
         socket.On("getQuestions", getQuestions);
+
+
         socket.On("respondedd", blbl);
 
         listPlayer = new List<Player>();
@@ -105,19 +111,18 @@ public class Menu : MonoBehaviour
 
         namePlayer = namePlayerInput;
         j.AddField("name", namePlayer);
+
         socket.Emit("join", j);
     }
 
     private void Join(SocketIOEvent e)
     {
-        //Debug.Log(e.data.GetField("namePlayerJson"));
         string nbPlayerSt = e.data.GetField("nbPlayer").Print();
         string idPlayerSt = e.data.GetField("id").Print();
         nbPlayer = int.Parse(nbPlayerSt);
         gameManager.nbPlayer = nbPlayer;
         idPlayer = int.Parse(idPlayerSt);
         Debug.Log("idPlayer dans menu : "+idPlayer);
-        //PlaceTextElement(nbPlayer, idPlayer,"");
 
         GameObject inputNamePlayer = GameObject.Find("InputNamePlayer");
         GameObject joinButton = GameObject.Find("Join");
@@ -192,7 +197,6 @@ public class Menu : MonoBehaviour
 
     private void AddPlayers(JSONObject data)
     {
-   
         for (int i = 0; i < nbPlayer; i++)
         {
             JSONObject playerElement = data.GetField("namePlayerJson")[i];
@@ -205,6 +209,8 @@ public class Menu : MonoBehaviour
 
     private void AddOtherPlayer(JSONObject data)
     {
+        nbPlayer++;
+        gameManager.nbPlayer = nbPlayer;
         string namePlayer = data.GetField("name").Print();
         string idPlayer = data.GetField("id").Print();
         Player player = new Player(int.Parse(idPlayer), namePlayer) as Player;

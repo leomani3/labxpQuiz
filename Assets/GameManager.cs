@@ -85,25 +85,11 @@ public class GameManager : MonoBehaviour
             if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
             {
                 Init(nbPlayer);
-                //socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
-                Debug.Log("initialisation : " +questions.Count);
                 socket.Emit("getCurrentQuestion");
                 DisplayHasAnswered();
-                //TODO : faire ici la boucle de jeu
-                //QuestionsUI = GameObject.Find("Question").GetComponent<Text>();
-                //QuestionsUI.text = questions[currentQuestion].GetEnonce();
-
-                //DisplayQuestion();
                 initialized = true;
+                        InitialisePerso();
             }
-
-            //envoyer SendReponse(int i) à chaque fois que le joueur appuis sur un bouton de reponse
-            //pendant que les joueurs répondent Lancer DisplayHasAnswered() à chaque update
-            //à la fin du timer afficher les reponses de jouer = DisplayIsCorrectAnswer()
-            //lancement du timer inter-question
-            //à la fin du timer inter-question (environ 5s) appeler ResetPlayersAnswer()
-            //tester si c'est la fin du jeu
-            //affichage des score = La fonction est pas encore faite. Ni l'écran d'affichage
             
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -375,7 +361,6 @@ public class GameManager : MonoBehaviour
             playersHasAnswered.Add(i, -1);
         }
         InitialiseChairs();
-        InitialisePerso();
     }
 
     public void AddPlayer(int id, string n)

@@ -17,13 +17,10 @@ function join(socket){
 		playerNumber++;
 		namePlayer = data.name;
 		
-		console.log(playerNumber);
 		// session
 		socket.broadcast.emit("joinAll",{id : idPlayer,name : namePlayer});
 		scorePlayer.set(idPlayer, 0);
-		console.log("dans le join current score : " +scorePlayer.get(idPlayer));
 		namePlayerMap.set(idPlayer, namePlayer);
-		console.log("player join : " + idPlayer + "  " +namePlayer);
 		var namePlayerJson = setMapToJson(namePlayerMap);
 		socket.emit("join",{id : idPlayer, nbPlayer : playerNumber,namePlayerJson} );
 	});
