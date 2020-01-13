@@ -53095,7 +53095,7 @@ PrefabInstance:
     - target: {fileID: 4800597449529859298, guid: a9fe1417e4f1adf4dbd5b50a706b9627,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 422
+      value: 337
       objectReference: {fileID: 0}
     - target: {fileID: 4800597449529859298, guid: a9fe1417e4f1adf4dbd5b50a706b9627,
         type: 3}
@@ -53111,6 +53111,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800597449529859298, guid: a9fe1417e4f1adf4dbd5b50a706b9627,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 943.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800597449529859298, guid: a9fe1417e4f1adf4dbd5b50a706b9627,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 181
       objectReference: {fileID: 0}
     - target: {fileID: 4800597451131815568, guid: a9fe1417e4f1adf4dbd5b50a706b9627,
         type: 3}
@@ -53136,6 +53146,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800597449529859296, guid: a9fe1417e4f1adf4dbd5b50a706b9627,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9fe1417e4f1adf4dbd5b50a706b9627, type: 3}
