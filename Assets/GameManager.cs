@@ -8,7 +8,9 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
+    //--SINGLETON
+    private static GameManager Instance;
+
     //--UI
     public GameObject playerUi;
     public GameObject UiClassement;
@@ -31,7 +33,6 @@ public class GameManager : MonoBehaviour
     private Dictionary<int, int> playersHasAnswered = new Dictionary<int, int>();
     private Dictionary<int, string> players = new Dictionary<int, string>();
     private Dictionary<int, int> scores = new Dictionary<int, int>();
-    private int currentAnswer;
     private int currentQuestion;
     private bool isCorrectAnswer = false;
     private int nbQuestion = 0;
@@ -44,8 +45,8 @@ public class GameManager : MonoBehaviour
     public SocketIOComponent socket;
     private bool initialized = false;
 
-    public static GameManager Instance;
 
+    //AWAKE : On gère le singleton
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -60,35 +61,36 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        //SINGLETON
         DontDestroyOnLoad(gameObject);
+
+        //--SERVEUR-------
+        socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+
         players.Clear();
         chairs = new List<GameObject>();
 
+        //Initialisation de l'affiche des sièges (status : non répondu) pour le début du jeu
         ResetPlayersAnswer();
         DisplayHasAnswered();
 
+        //UI
         questions = new List<Question>();
         ListButtonAnswers = new List<GameObject>();
-        //--SERVEUR-------
-        socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
         responses = new List<string>();
-        //socket.On("setReponse", getIsCorrectAnswer);
-       socket.On("respondedd", aPlayerResponded);
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
 
-        if (SceneManager.GetActiveScene().name == "MainStage")
+        if (SceneManager.GetActiveScene().name == "MainStage") //Si nous sommes sur la scène de jeu
         {
-            if (!initialized) //one ne met dans ce if que les choses qu'on ne veut faire qu'une seule fois
+            if (!initialized) //Ce if permet de n'executer qu'une seule fois toute la partie d'initialisation du jeu
             {
                 Init(nbPlayer);
-                socket.Emit("getCurrentQuestion");
-                DisplayHasAnswered();
-                initialized = true;
-                        InitialisePerso();
             }
             
         }
@@ -117,14 +119,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Permet d'initialiser tous les écoutes du client sur le serveur
+    /// </summary>
     public void SetupServerOn()
     {
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
-        socket.On("respondedd", aPlayerResponded);
+
         socket.On("getCurrentQuestion", getCurrentQuestion);
         socket.On("setReponse", isGoodAnswer);
         socket.On("getScore", setupdicoScore);
-        //socket.On("")
     }
 
 
@@ -151,11 +155,6 @@ public class GameManager : MonoBehaviour
         playerId = i;
     }
 
-    public void SetPlayerAnswer(int i)
-    {
-        currentAnswer = i;
-    }
-
     public void SetHasAnswered()
     {
         Debug.Log("ID : " + playerId);
@@ -171,22 +170,32 @@ public class GameManager : MonoBehaviour
 
 
     //-----------SERVER ON-------------
+
+    /// <summary>
+    /// Permet de dire si la réponse donnée est la bonne ou non
+    /// </summary>
+    /// <param name="e"></param>
     public void isGoodAnswer(SocketIOEvent e)
     {
         int id = int.Parse(e.data.GetField("id").ToString());
-        Debug.Log("le joueur "+id+" a répondu !");
         playersAnswer[id] = int.Parse(e.data.GetField("answer").ToString());
     }
 
+    /// <summary>
+    /// Permet de récupérer lorsqu'un joueur répond à une question
+    /// </summary>
+    /// <param name="e"></param>
     public void aPlayerResponded(SocketIOEvent e)
     {
         int pId = int.Parse(e.data.GetField("id").ToString());
-        //Debug.Log("UN PLAYER A REPONDU id : " + pId);
         playersHasAnswered[pId] = 1;
         DisplayHasAnswered();
-        //responses.Add(pId.ToString());
     }
 
+    /// <summary>
+    /// Permet de récupérer la question courante que le serveur nous renvoie
+    /// </summary>
+    /// <param name="e"></param>
     private void getCurrentQuestion(SocketIOEvent e)
     {
         ClearButton();
@@ -208,6 +217,11 @@ public class GameManager : MonoBehaviour
 
 
     //-----------SERVER EMIT-------------
+
+    /// <summary>
+    /// Le client envoie sa réponse au serveur. Le serveur nous répondra si c'est une bonne réponse ou non.
+    /// </summary>
+    /// <param name="i"></param>
     public void SendReponse(int i)
     {
         JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
@@ -226,6 +240,10 @@ public class GameManager : MonoBehaviour
 
 
     //-----------DISPLAY-------------
+
+     /// <summary>
+     /// permet de le colorer les sièges en fonction de si la réponse est bonne ou non.
+     /// </summary>
     private void DisplayIsCorrectAnswer()
     {
         foreach (int i in playersAnswer.Keys)
@@ -241,6 +259,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Permet d'allumer le siège lorsque qu'un joueur répond
+    /// </summary>
     private void DisplayHasAnswered()
     {
         foreach (int i in playersHasAnswered.Keys)
@@ -259,25 +280,28 @@ public class GameManager : MonoBehaviour
 
 
 
-
-
-
-
-
-
+    /// <summary>
+    /// Lance le timer de la question (temps que le joueur a pour répondre à la question)
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator StartQuestion()
     {
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(20); //stop le code pendant 20 secondes
         StartCoroutine(StartInterQuestion());
     }
 
+    /// <summary>
+    /// Temps entre les question pendant lequel les résultats sont affichés
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator StartInterQuestion()
     {
         DisplayIsCorrectAnswer();
-        yield return new WaitForSeconds(5);
+
+        yield return new WaitForSeconds(5); //stop le code pendant 5 secondes
+
         if (currentQuestion == nbQuestion - 1)
         {
-            Debug.Log("plus de question");
             StartCoroutine(SetUpClassement());
             socket.Emit("resetVariables");
         }
@@ -289,18 +313,22 @@ public class GameManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Permet de remplir la Liste de sièges avec les objet populant la scène
+    /// </summary>
     public void InitialiseChairs()
     {
         for (int i = 0; i < 18; i++)
         {
             chairs.Add(GameObject.Find("Slot"+(i +1)));
-            Debug.Log(GameObject.Find("Slot" + (i + 1)));
         }
     }
 
+    /// <summary>
+    /// permet d'initialiser les avatar en fonction du nombre de joueur
+    /// </summary>
     public void InitialisePerso()
     {
-        Debug.Log("nb persos : " + nbPlayer);
         for (int i = 0; i < 18; i++)
         {
             if (i < nbPlayer)
@@ -335,24 +363,26 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ResetPlayersAnswer()
     {
-        /*foreach (int i in playersHasAnswered.Keys)
-        {
-            Debug.Log(i);
-            playersHasAnswered[i] = -1;
-        }*/
-
         foreach (int i in playersHasAnswered.Keys)
         {
             chairs[i].GetComponent<MeshRenderer>().material = materials[0];
         }
     }
 
+    /// <summary>
+    /// Initialisation avant de commencer la partie
+    /// </summary>
+    /// <param name="nbP"></param>
     public void Init(int nbP)
     {
-        SetupServerOn();
+        SetupServerOn(); //Permet de gérer les écoutes du serveur
+        DisplayHasAnswered();
+
         nbPlayer = nbP;
 
         nbQuestion = questions.Count;
+
+        socket.Emit("getCurrentQuestion"); //permet de récupérer la question actuellement en cours
 
         //initialisation de la listes des reponses
         foreach (int i in players.Keys)
@@ -360,9 +390,14 @@ public class GameManager : MonoBehaviour
             playersAnswer.Add(i, -1);
             playersHasAnswered.Add(i, -1);
         }
-        InitialiseChairs();
+
+        InitialiseChairs(); //initialisation des sièges
+        InitialisePerso();  //initialisation des avatars
+
+        initialized = true;
     }
 
+    
     public void AddPlayer(int id, string n)
     {
         players.Add(id, n);
@@ -397,14 +432,12 @@ public class GameManager : MonoBehaviour
             int score = int.Parse(jsonListScore[i].GetField("score").ToString());
             scores.Add(id, score);
         }
-        Debug.Log(scores.Keys.Count + " dfihggggggggggggggggggggggggggggggggg");
     }
 
     List<int> sortbyScore()
     {
         List<int> result = new List<int>();
         int scoremax = 0;
-        Debug.Log(scores.Keys.Count + " scores.Keys");
         foreach (int id in scores.Keys)
         {
             if (scoremax < scores[id])
@@ -415,7 +448,6 @@ public class GameManager : MonoBehaviour
             {
                 result.Add(id);
             }
-            Debug.Log(id);
         }
         return result;
     }

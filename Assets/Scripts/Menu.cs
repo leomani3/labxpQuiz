@@ -34,17 +34,11 @@ public class Menu : MonoBehaviour
         startButton.SetActive(false);
         GameObject go = GameObject.Find("SocketIO");
         socket = go.GetComponent<SocketIOComponent>();
-        //StartCoroutine(resetServerVariables());
 
         nbPlayer = 0;
 
         socket.On("join", Join);
-
-
         socket.On("getQuestions", getQuestions);
-
-
-        socket.On("respondedd", blbl);
 
         listPlayer = new List<Player>();
     }
@@ -63,20 +57,19 @@ public class Menu : MonoBehaviour
             j.AddField("id", 111);
             socket.Emit("responded", j);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+
+        if (Input.GetKeyDown(KeyCode.Alpha4)) //permet de reset le serveur pour une nouvelle partie
         {
             socket.Emit("resetVariables");
         }
     }
 
-    private void blbl(SocketIOEvent e)
-    {
-        Debug.Log("RESPONDEDD");
-    }
-
+    /// <summary>
+    /// Récupère la liste des questions auprès du serveur
+    /// </summary>
+    /// <param name="e"></param>
     private void getQuestions(SocketIOEvent e)
     {
-        Debug.Log("je recois les questions");
         int nbQuestion = e.data.GetField("questions").Count;
         for (int i = 0; i < nbQuestion; i++)
         {
@@ -95,14 +88,14 @@ public class Menu : MonoBehaviour
         }
 
         GameManager.questions = questions;
-        //Debug.Log("QUESTIONS RECUES");
         gameManager.SetPlayerId(idPlayer);
         SceneManager.LoadScene("MainStage");
         gameManager.gameStarted = true;
-        //Debug.Log("hhhhh" + questions.Count);
     }
 
-
+    /// <summary>
+    /// Fonction appelée lorsque l'on clique sur le bouton pour rejoindre la partie
+    /// </summary>
     public void OnclickButtonJoin()
     {
         JSONObject j = new JSONObject(JSONObject.Type.OBJECT);
@@ -115,6 +108,10 @@ public class Menu : MonoBehaviour
         socket.Emit("join", j);
     }
 
+    /// <summary>
+    /// Permet de rejoindre la partie
+    /// </summary>
+    /// <param name="e"></param>
     private void Join(SocketIOEvent e)
     {
         string nbPlayerSt = e.data.GetField("nbPlayer").Print();
@@ -122,7 +119,6 @@ public class Menu : MonoBehaviour
         nbPlayer = int.Parse(nbPlayerSt);
         gameManager.nbPlayer = nbPlayer;
         idPlayer = int.Parse(idPlayerSt);
-        Debug.Log("idPlayer dans menu : "+idPlayer);
 
         GameObject inputNamePlayer = GameObject.Find("InputNamePlayer");
         GameObject joinButton = GameObject.Find("Join");
@@ -133,19 +129,17 @@ public class Menu : MonoBehaviour
         AddPlayers(e.data);
         PlaceTextOtherPlayers();
 
-        if (nbPlayer == 1)
+        if (nbPlayer == 1) //le bouton pour lancer la partie n'apparaît que sur le pc du premier joueur
         {
             startButton.SetActive(true);
         }
-        socket.On("joinAll", JoinAll);
+
+        socket.On("joinAll", JoinAll); //Lorsqu'un client rejoint, il envoie à tout le monde son identifiant
     }
 
     void StartGame()
     {
-        socket.Emit("getQuestions");
-        //passer toutes les variables necessaires au GameManager
-
-
+        socket.Emit("getQuestions"); //demande la liste des questions au serveur
     }
 
     private void JoinAll(SocketIOEvent e)
@@ -166,10 +160,8 @@ public class Menu : MonoBehaviour
 
     private void PlaceTextOtherPlayers()
     {
-        //Debug.Log(nbPlayer);
         for (int i = 0; i < listPlayer.Count; i++)
         {
-            //Debug.Log("sa passe");
             PlaceTextElement(i, listPlayer[i].name);
         }   
     }
