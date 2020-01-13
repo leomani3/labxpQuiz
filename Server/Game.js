@@ -48,7 +48,7 @@ function join(socket){
 	
 	
 	socket.on('getCurrentQuestion', function(data ){
-	console.log(data);
+	console.log("blblblblblbl" +data.id);
 		console.log("le serveur a emit "+numberQuestion);
 		socket.emit("getCurrentQuestion",{question : numberQuestion} )
 		//if(nbPlayerAnswer == playerNumber){
