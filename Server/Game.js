@@ -35,12 +35,6 @@ function join(socket){
 		nbJoueurGetScore=0;
 	})
 
-	socket.on('responded', function(data){
-		console.log(data);
-		socket.broadcast.emit("respondedd",{id : data.id} )
-		socket.emit("respondedd",{id : data.id} )
-	})
-
 	socket.on('getQuestions', function(data ){
 		socket.emit("getQuestions",{questions} )
 		socket.broadcast.emit("getQuestions",{questions} )

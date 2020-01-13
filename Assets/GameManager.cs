@@ -179,16 +179,16 @@ public class GameManager : MonoBehaviour
     {
         int id = int.Parse(e.data.GetField("id").ToString());
         playersAnswer[id] = int.Parse(e.data.GetField("answer").ToString());
+        aPlayerResponded(id);
     }
 
     /// <summary>
     /// Permet de récupérer lorsqu'un joueur répond à une question
     /// </summary>
     /// <param name="e"></param>
-    public void aPlayerResponded(SocketIOEvent e)
+    public void aPlayerResponded(int id)
     {
-        int pId = int.Parse(e.data.GetField("id").ToString());
-        playersHasAnswered[pId] = 1;
+        playersHasAnswered[id] = 1;
         DisplayHasAnswered();
     }
 
