@@ -48,9 +48,12 @@ function join(socket){
 	
 	
 	socket.on('getCurrentQuestion', function(data ){
+	console.log(data);
 		console.log("le serveur a emit "+numberQuestion);
 		socket.emit("getCurrentQuestion",{question : numberQuestion} )
-		numberQuestion++;
+		//if(nbPlayerAnswer == playerNumber){
+			//numberQuestion++;
+		//}
 	})
 	
 	
@@ -75,9 +78,6 @@ function join(socket){
 		socket.broadcast.emit("setReponse",{id : idPlayer, answer : goodAnswer} );
 		socket.emit("setReponse",{id : idPlayer, answer : goodAnswer} );
 		nbPlayerAnswer++;
-		//if(nbPlayerAnswer == playerNumber){
-			//numberQuestion++;
-		//}
 	})
 
 
