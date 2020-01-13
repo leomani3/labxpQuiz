@@ -1,25 +1,13 @@
 Pourquoi étudier les interactions entre macromolécules ? #& Pour caractériser leur fonction / Pour identifier leur localisation //0
-
 La caractérisation des sites précis d’interaction entre ces macromolécules permettra d’identifier par la suite des inhibiteurs de ces interactions qui dans certain cas pourront servir de médicaments #& Vrai / Faux //0
-
 Le site d’interaction enzyme-substrat est plus conservé au cours de l’évolution que les sites d’interaction enzyme-autre macromolécules #& Vrai / Faux //0
-
 Par conséquent, l’inhibiteur d’une interaction entre macromolécules a un ++ Fort potentiel de spécificité d’hôte que l’inhibiteur du site catalytique d’une enzyme #& Vrai / Faux //0
-
 Connaissez-vous l’année de la découverte des protéines #& 1838 / 1906 /1942 /1960 //0
-
 Quelle est l’année de la découverte de la première interaction protéine-protéine #& 1838 / 1906 / 1942 / 1960 //2
-
 Quelle est l’année de la découverte de la première cascade de signalisation #& 1838 / 1906 / 1942 / 1960 //3
-
 Quelle est l’année de la publication de la première carte des interactions protéine-protéine d’un organisme vivant #& 2000 / 2003 / 2019 //0
-
 Quel est le nombre d’interactions protéines-protéines découvertes à ce jour #& 500 000 / 1000 000 / >2000 million //2
-
 Saccharomyces cerevisiae est un organisme #& procaryote / eucaryote //1
-
 Escherichia coli est un organisme #& procaryote / eucaryote //0
-
 La température optimale de croissance de Saccharomyces cerevisiae est 30°C #& Vrai / Faux //0
-
 La température optimale de croissance de Escherichia coli est de 37°C #& Vrai / Faux //0
