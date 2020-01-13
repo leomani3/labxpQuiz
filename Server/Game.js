@@ -49,8 +49,8 @@ function join(socket){
 	
 	socket.on('getCurrentQuestion', function(data ){
 		console.log("le serveur a emit "+numberQuestion);
-		numberQuestion++;
 		socket.emit("getCurrentQuestion",{question : numberQuestion} )
+		numberQuestion++;
 	})
 	
 	
