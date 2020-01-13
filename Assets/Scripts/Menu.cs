@@ -71,6 +71,7 @@ public class Menu : MonoBehaviour
     private void getQuestions(SocketIOEvent e)
     {
         int nbQuestion = e.data.GetField("questions").Count;
+        Debug.Log("nb question  : "+nbQuestion);
         for (int i = 0; i < nbQuestion; i++)
         {
             int nbReponse = e.data.GetField("questions")[i].GetField("answer").Count;
